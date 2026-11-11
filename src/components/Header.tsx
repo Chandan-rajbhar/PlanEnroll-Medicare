@@ -11,7 +11,8 @@ export const Header: React.FC = () => {
     currentScreen, 
     navigateTo, 
     unreadNotificationCount, 
-    isAuthenticated
+    isAuthenticated,
+    userProfile
   } = useApp();
 
   return (
@@ -69,20 +70,26 @@ export const Header: React.FC = () => {
           {/* Profile / Auth Button */}
           <button
             onClick={() => navigateTo(isAuthenticated ? 'user-profile' : 'login')}
-            className={`p-1.5 transition-colors flex items-center justify-center focus:outline-none relative ${
-              currentScreen === 'user-profile' || currentScreen === 'login'
-                ? 'text-cyan-300'
-                : 'text-blue-100 hover:text-white'
-            }`}
+            className="p-1 transition-opacity flex items-center justify-center focus:outline-none hover:opacity-85 cursor-pointer"
             title={isAuthenticated ? 'My Profile' : 'Sign In'}
             aria-label="User Account"
           >
-            <User className="w-5 h-5" />
-            {isAuthenticated && (
-              <span 
-                className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-400 ring-1.5 ring-[#0B1E3B]" 
-                title="Signed in" 
-              />
+            {isAuthenticated && userProfile ? (
+              userProfile.photoUrl ? (
+                /* Profile Photo - Clean, no colored ring, no green dot */
+                <img 
+                  src={userProfile.photoUrl} 
+                  alt={`${userProfile.firstName} ${userProfile.lastName}`}
+                  className="w-7 h-7 rounded-full object-cover shadow-xs"
+                />
+              ) : (
+                /* Short Name / Initials if no profile picture */
+                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-black text-[11px] flex items-center justify-center select-none shadow-xs">
+                  {userProfile.firstName.charAt(0)}{userProfile.lastName.charAt(0)}
+                </div>
+              )
+            ) : (
+              <User className="w-5 h-5 text-blue-100 hover:text-white" />
             )}
           </button>
         </div>

@@ -109,6 +109,7 @@ const defaultUserProfile: UserProfile = {
   lastName: 'Vance',
   email: 'eleanor.vance@gmail.com',
   phone: '(971) 752-9054',
+  photoUrl: '',
   zipCode: '75080',
   county: 'Collin County',
   state: 'TX',
@@ -201,7 +202,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   ]);
 
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(defaultUserProfile);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
+    try {
+      const stored = localStorage.getItem('medicare_user_profile');
+      return stored ? JSON.parse(stored) : defaultUserProfile;
+    } catch {
+      return defaultUserProfile;
+    }
+  });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [notifications, setNotifications] = useState<AppNotification[]>(initialNotifications);
   const [isAgentChatOpen, setIsAgentChatOpen] = useState<boolean>(false);
@@ -351,7 +359,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const updateUserProfile = (profile: Partial<UserProfile>) => {
-    setUserProfile(prev => prev ? { ...prev, ...profile } : null);
+    setUserProfile(prev => {
+      if (!prev) return null;
+      const updated = { ...prev, ...profile };
+      try {
+        localStorage.setItem('medicare_user_profile', JSON.stringify(updated));
+      } catch (e) {
+        console.error(e);
+      }
+      return updated;
+    });
   };
 
   const submitQuoteRequest = (req: Omit<QuoteRequest, 'id' | 'createdAt' | 'status'>) => {

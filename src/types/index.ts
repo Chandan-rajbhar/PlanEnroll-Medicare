@@ -143,6 +143,7 @@ export interface UserProfile {
   lastName: string;
   email: string;
   phone: string;
+  photoUrl?: string;
   zipCode: string;
   county: string;
   state: string;
