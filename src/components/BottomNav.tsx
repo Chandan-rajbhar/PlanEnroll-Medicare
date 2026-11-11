@@ -57,8 +57,8 @@ export const BottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="w-full shrink-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] relative">
-      <div className="flex items-center justify-around px-2 py-1.5">
+    <nav className="w-full shrink-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] relative pb-[max(env(safe-area-inset-bottom),0.5rem)] sm:pb-1">
+      <div className="flex items-center justify-around px-2 pt-1.5 pb-1">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = currentScreen === tab.id;
@@ -68,10 +68,10 @@ export const BottomNav: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => navigateTo(tab.id)}
-                className="group relative flex flex-col items-center -top-3.5 focus:outline-none"
+                className="group relative flex flex-col items-center -top-3 focus:outline-none"
               >
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 border-3 border-white ${
+                  className={`w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-95 border-2 border-white ${
                     isActive
                       ? 'bg-gradient-to-tr from-blue-700 to-indigo-600 text-white shadow-blue-500/40 ring-2 ring-blue-600'
                       : 'bg-gradient-to-tr from-[#0F2544] to-blue-800 text-white shadow-slate-900/20 hover:scale-105'
@@ -79,13 +79,13 @@ export const BottomNav: React.FC = () => {
                 >
                   <Icon className="w-5 h-5" />
                   {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-slate-950 font-black text-[11px] rounded-full border-2 border-white flex items-center justify-center shadow">
+                    <span className="absolute -top-1 -right-1 w-4.5 h-4.5 bg-amber-500 text-slate-950 font-black text-[10px] rounded-full border border-white flex items-center justify-center shadow">
                       {tab.badgeCount}
                     </span>
                   )}
                 </div>
                 <span
-                  className={`text-[10px] mt-0.5 font-semibold transition-colors ${
+                  className={`text-[10px] mt-0.5 font-bold transition-colors leading-tight ${
                     isActive ? 'text-blue-700' : 'text-slate-600 group-hover:text-blue-800'
                   }`}
                 >
@@ -99,7 +99,7 @@ export const BottomNav: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => navigateTo(tab.id)}
-              className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all relative ${
+              className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all relative ${
                 isActive
                   ? 'text-blue-800 font-bold'
                   : 'text-slate-500 hover:text-slate-800 font-medium'
@@ -113,7 +113,7 @@ export const BottomNav: React.FC = () => {
                   </span>
                 )}
               </div>
-              <span className="text-[10px] mt-1 tracking-tight">
+              <span className="text-[10px] mt-0.5 tracking-tight font-semibold leading-tight">
                 {tab.label}
               </span>
               {isActive && (

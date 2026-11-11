@@ -82,17 +82,17 @@ const MainAppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-0 sm:py-4 md:py-6 font-sans">
+    <div className="fixed inset-0 sm:relative sm:inset-auto w-full h-[100dvh] sm:h-auto sm:min-h-screen bg-slate-900 flex flex-col items-center justify-center p-0 sm:py-4 md:py-6 font-sans overflow-hidden">
       {/* Phone Mockup Frame Container - traps all fixed/absolute modals within the phone frame */}
       <div 
-        className="w-full max-w-[430px] h-screen sm:h-[880px] sm:max-h-[94vh] bg-slate-50 relative flex flex-col sm:rounded-[46px] sm:shadow-[0_25px_70px_rgba(0,0,0,0.65)] sm:border-[10px] sm:border-slate-800 sm:ring-1 sm:ring-slate-700 overflow-hidden"
+        className="w-full max-w-[430px] h-full sm:h-[880px] sm:max-h-[94vh] bg-slate-50 relative flex flex-col sm:rounded-[46px] sm:shadow-[0_25px_70px_rgba(0,0,0,0.65)] sm:border-[10px] sm:border-slate-800 sm:ring-1 sm:ring-slate-700 overflow-hidden"
         style={{ transform: 'translateZ(0)' }}
       >
         {/* Global App Header */}
         <Header />
 
-        {/* Dynamic Screen View - Content scrolls cleanly between Header and BottomNav */}
-        <main className="flex-1 overflow-y-auto no-scrollbar relative">
+        {/* Dynamic Screen View - min-h-0 prevents flex overflow on mobile browsers */}
+        <main className="flex-1 min-h-0 overflow-y-auto no-scrollbar relative">
           {renderScreen()}
         </main>
 
