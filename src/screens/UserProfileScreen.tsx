@@ -88,7 +88,7 @@ export const UserProfileScreen: React.FC = () => {
   const shortName = `${formData.firstName?.charAt(0) || 'E'}${formData.lastName?.charAt(0) || 'V'}`;
 
   return (
-    <div className="bg-white min-h-full pb-28 px-3.5 pt-3 space-y-3.5">
+    <div className="bg-slate-50 min-h-full pb-28 px-3.5 pt-3 space-y-3.5">
       {/* Hidden Native File Input for Photo Upload */}
       <input
         type="file"
@@ -98,115 +98,123 @@ export const UserProfileScreen: React.FC = () => {
         className="hidden"
       />
 
-      {/* Clean Modern White Profile Header Card with Dark High-Contrast Text */}
-      <div className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-2xs space-y-3 relative">
-        <div className="flex items-start justify-between gap-2.5">
-          <div className="flex items-center gap-3 min-w-0 flex-1">
-            {/* Profile Avatar / Photo with Camera overlay & Click-to-view */}
-            <div className="relative group shrink-0">
-              <button
-                type="button"
-                onClick={() => setIsViewPhotoModalOpen(true)}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden focus:outline-none ring-2 ring-blue-100 shadow-xs transition-transform active:scale-95 flex items-center justify-center bg-blue-50 text-blue-900 font-black text-xl select-none cursor-pointer"
-                title="Click to view profile picture"
-              >
-                {formData.photoUrl ? (
-                  <img
-                    src={formData.photoUrl}
-                    alt={`${formData.firstName} ${formData.lastName}`}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span>{shortName}</span>
-                )}
-              </button>
+      {/* Premium Navy Brand Profile Header Card with High-Contrast Typography & Frosted Tiles */}
+      <div className="relative rounded-3xl p-4 sm:p-5 overflow-hidden bg-gradient-to-br from-[#0B1E36] via-[#123661] to-[#1D4ED8] text-white shadow-md border border-blue-900/30">
+        {/* Subtle decorative background glow circles */}
+        <div className="absolute -right-8 -top-8 w-36 h-36 bg-blue-400/20 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/15 rounded-full blur-2xl pointer-events-none" />
 
-              {/* Camera / Edit Photo Quick Button */}
-              <button
-                type="button"
-                onClick={() => setIsPhotoMenuOpen(true)}
-                className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-xs border-2 border-white transition-all cursor-pointer active:scale-90"
-                title="Update Profile Photo"
-              >
-                <Camera className="w-3 h-3" />
-              </button>
-            </div>
-
-            <div className="min-w-0 flex-1">
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-tight truncate">
-                {formData.firstName} {formData.lastName}
-              </h2>
-              <span className="text-xs text-slate-500 block leading-tight truncate mt-0.5">{formData.email}</span>
-              
-              <span className="text-[10px] text-blue-800 font-semibold bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-lg inline-block mt-1">
-                Medicare ID: {formData.medicareNumber}
-              </span>
-
-              {/* View / Change photo button links */}
-              <div className="flex items-center gap-2 mt-1">
+        <div className="relative z-10 space-y-3.5">
+          <div className="flex items-start justify-between gap-2.5">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {/* Profile Avatar / Photo with Camera overlay & Click-to-view */}
+              <div className="relative group shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsViewPhotoModalOpen(true)}
-                  className="text-[11px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden focus:outline-none ring-2 ring-white/30 shadow-md transition-transform active:scale-95 flex items-center justify-center bg-white/15 text-white font-black text-xl select-none cursor-pointer backdrop-blur-xs"
+                  title="Click to view profile picture"
                 >
-                  <Eye className="w-3 h-3" />
-                  <span>View Photo</span>
+                  {formData.photoUrl ? (
+                    <img
+                      src={formData.photoUrl}
+                      alt={`${formData.firstName} ${formData.lastName}`}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span>{shortName}</span>
+                  )}
                 </button>
-                <span className="text-slate-300 text-[10px]">•</span>
+
+                {/* Camera / Edit Photo Quick Button */}
                 <button
                   type="button"
                   onClick={() => setIsPhotoMenuOpen(true)}
-                  className="text-[11px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                  className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-500 hover:bg-blue-400 text-white flex items-center justify-center shadow-md border-2 border-[#123661] transition-all cursor-pointer active:scale-90"
+                  title="Update Profile Photo"
                 >
                   <Camera className="w-3 h-3" />
-                  <span>Change</span>
                 </button>
               </div>
+
+              <div className="min-w-0 flex-1">
+                <h2 className="text-base sm:text-lg font-black text-white leading-tight truncate tracking-tight">
+                  {formData.firstName} {formData.lastName}
+                </h2>
+                <span className="text-xs text-blue-100/80 block leading-tight truncate mt-0.5 font-medium">
+                  {formData.email}
+                </span>
+                
+                <span className="text-[10px] text-blue-100 font-bold bg-white/15 border border-white/20 px-2.5 py-0.5 rounded-lg inline-block mt-1 backdrop-blur-xs shadow-2xs">
+                  Medicare ID: {formData.medicareNumber}
+                </span>
+
+                {/* View / Change photo button links */}
+                <div className="flex items-center gap-2 mt-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setIsViewPhotoModalOpen(true)}
+                    className="text-[11px] text-blue-200 hover:text-white font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                  >
+                    <Eye className="w-3 h-3" />
+                    <span>View Photo</span>
+                  </button>
+                  <span className="text-white/30 text-[10px]">•</span>
+                  <button
+                    type="button"
+                    onClick={() => setIsPhotoMenuOpen(true)}
+                    className="text-[11px] text-blue-200 hover:text-white font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+                  >
+                    <Camera className="w-3 h-3" />
+                    <span>Change</span>
+                  </button>
+                </div>
+              </div>
             </div>
+
+            {/* Edit Profile Button */}
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className="px-3.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-bold transition-all shrink-0 cursor-pointer backdrop-blur-xs active:scale-95 shadow-2xs"
+            >
+              {isEditing ? 'Cancel' : 'Edit'}
+            </button>
           </div>
 
-          {/* Edit Profile Button */}
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95"
-          >
-            {isEditing ? 'Cancel' : 'Edit'}
-          </button>
-        </div>
+          {/* 4 Counter Summary Boxes in Frosted Glass Tiles */}
+          <div className="grid grid-cols-4 gap-2 pt-3 border-t border-white/15 text-center">
+            <button 
+              onClick={() => navigateTo('saved-plans')} 
+              className="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs transition-all cursor-pointer group active:scale-95 shadow-2xs"
+            >
+              <span className="text-base sm:text-lg font-black text-white block group-hover:scale-105 transition-transform">{savedPlanIds.length}</span>
+              <span className="text-[10px] text-blue-100 font-bold block mt-0.5">Saved</span>
+            </button>
 
-        {/* 4 Counter Summary Boxes */}
-        <div className="grid grid-cols-4 gap-1.5 pt-2.5 border-t border-slate-100 text-center">
-          <button 
-            onClick={() => navigateTo('saved-plans')} 
-            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
-          >
-            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{savedPlanIds.length}</span>
-            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Saved</span>
-          </button>
+            <button 
+              onClick={() => navigateTo('my-doctors')} 
+              className="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs transition-all cursor-pointer group active:scale-95 shadow-2xs"
+            >
+              <span className="text-base sm:text-lg font-black text-white block group-hover:scale-105 transition-transform">{userDoctorIds.length}</span>
+              <span className="text-[10px] text-blue-100 font-bold block mt-0.5">Doctors</span>
+            </button>
 
-          <button 
-            onClick={() => navigateTo('my-doctors')} 
-            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
-          >
-            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userDoctorIds.length}</span>
-            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Doctors</span>
-          </button>
+            <button 
+              onClick={() => navigateTo('my-pharmacies')} 
+              className="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs transition-all cursor-pointer group active:scale-95 shadow-2xs"
+            >
+              <span className="text-base sm:text-lg font-black text-white block group-hover:scale-105 transition-transform">{userPharmacyIds.length}</span>
+              <span className="text-[10px] text-blue-100 font-bold block mt-0.5">Pharmacies</span>
+            </button>
 
-          <button 
-            onClick={() => navigateTo('my-pharmacies')} 
-            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
-          >
-            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userPharmacyIds.length}</span>
-            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Pharmacies</span>
-          </button>
-
-          <button 
-            onClick={() => navigateTo('my-prescriptions')} 
-            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
-          >
-            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userPrescriptions.length}</span>
-            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Meds</span>
-          </button>
+            <button 
+              onClick={() => navigateTo('my-prescriptions')} 
+              className="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs transition-all cursor-pointer group active:scale-95 shadow-2xs"
+            >
+              <span className="text-base sm:text-lg font-black text-white block group-hover:scale-105 transition-transform">{userPrescriptions.length}</span>
+              <span className="text-[10px] text-blue-100 font-bold block mt-0.5">Meds</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -414,31 +422,31 @@ export const UserProfileScreen: React.FC = () => {
       {/* Navigation Links Group */}
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-2xs divide-y divide-slate-100 overflow-hidden text-xs">
         {[
-          { label: 'Saved Plans & Cart', icon: Bookmark, screen: 'saved-plans', count: `${savedPlanIds.length} plans` },
-          { label: 'My Doctors Directory', icon: Stethoscope, screen: 'my-doctors', count: `${userDoctorIds.length} doctors` },
-          { label: 'My Preferred Pharmacies', icon: Building2, screen: 'my-pharmacies', count: `${userPharmacyIds.length} locations` },
-          { label: 'My Prescription Medications', icon: Pill, screen: 'my-prescriptions', count: `${userPrescriptions.length} meds` },
-          { label: 'Medicare Learning Center', icon: FileText, screen: 'learning-center', count: '4 guides' },
-          { label: 'Medicare Disclaimers & CMS Notices', icon: ShieldCheck, screen: 'medicare-disclaimers', count: 'Required' },
-          { label: 'Settings & Display Preferences', icon: Settings, screen: 'settings', count: '' },
-          { label: 'Help & Customer Support', icon: HelpCircle, screen: 'help-support', count: '1-855-700-8583' },
+          { label: 'Saved Plans & Cart', icon: Bookmark, screen: 'saved-plans', count: `${savedPlanIds.length} plans`, color: 'bg-blue-50 text-blue-600 border-blue-100' },
+          { label: 'My Doctors Directory', icon: Stethoscope, screen: 'my-doctors', count: `${userDoctorIds.length} doctors`, color: 'bg-amber-50 text-amber-600 border-amber-100' },
+          { label: 'My Preferred Pharmacies', icon: Building2, screen: 'my-pharmacies', count: `${userPharmacyIds.length} locations`, color: 'bg-emerald-50 text-emerald-600 border-emerald-100' },
+          { label: 'My Prescription Medications', icon: Pill, screen: 'my-prescriptions', count: `${userPrescriptions.length} meds`, color: 'bg-rose-50 text-rose-600 border-rose-100' },
+          { label: 'Medicare Learning Center', icon: FileText, screen: 'learning-center', count: '4 guides', color: 'bg-sky-50 text-sky-600 border-sky-100' },
+          { label: 'Medicare Disclaimers & CMS Notices', icon: ShieldCheck, screen: 'medicare-disclaimers', count: 'Required', color: 'bg-indigo-50 text-indigo-600 border-indigo-100' },
+          { label: 'Settings & Display Preferences', icon: Settings, screen: 'settings', count: '', color: 'bg-slate-100 text-slate-600 border-slate-200' },
+          { label: 'Help & Customer Support', icon: HelpCircle, screen: 'help-support', count: '1-855-700-8583', color: 'bg-purple-50 text-purple-600 border-purple-100' },
         ].map((item, i) => {
           const Icon = item.icon;
           return (
             <button
               key={i}
               onClick={() => navigateTo(item.screen as any)}
-              className="w-full p-3.5 flex items-center justify-between hover:bg-blue-50/40 active:bg-blue-50 transition-colors text-left cursor-pointer group"
+              className="w-full p-3.5 flex items-center justify-between hover:bg-slate-50 active:bg-blue-50/50 transition-colors text-left cursor-pointer group"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-xl bg-blue-50/80 text-blue-600 border border-blue-100/60 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <div className={`w-8 h-8 rounded-xl ${item.color} border flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform`}>
                   <Icon className="w-4 h-4" />
                 </div>
-                <span className="font-bold text-slate-800 text-xs truncate">{item.label}</span>
+                <span className="font-bold text-slate-800 text-xs truncate group-hover:text-blue-700 transition-colors">{item.label}</span>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-2">
                 {item.count && <span className="text-[11px] text-slate-400 font-medium">{item.count}</span>}
-                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
               </div>
             </button>
           );
