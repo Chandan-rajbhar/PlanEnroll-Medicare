@@ -176,11 +176,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  const [comparePlanIds, setComparePlanIds] = useState<string[]>(['molina-complete-care-hmo', 'bcbs-medicare-advantage-value-hmo']);
+  const [comparePlanIds, setComparePlanIds] = useState<string[]>([]);
   const [selectedPlanForDetails, setSelectedPlanForDetails] = useState<MedicarePlan | null>(null);
 
   // User healthcare assets (Pre-seeded with screenshot items)
-  const [userDoctorIds, setUserDoctorIds] = useState<string[]>(['doc-1', 'doc-2']);
+  const [userDoctorIds, setUserDoctorIds] = useState<string[]>(['doc-1', 'doc-2', 'doc-3']);
   const [userPharmacyIds, setUserPharmacyIds] = useState<string[]>(['pharm-1', 'pharm-6']);
   const [userPrescriptions, setUserPrescriptions] = useState<UserPrescriptionItem[]>([
     {
