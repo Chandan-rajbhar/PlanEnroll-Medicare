@@ -44,56 +44,59 @@ export const PlanSearchScreen: React.FC = () => {
 
   return (
     <div className="pb-10 space-y-3">
-      {/* Top ZIP & Results Summary Bar (Directly from Screenshot 2: "54 plans available in 75080") */}
-      <div className="px-4 pt-3 pb-1">
-        <div className="flex items-center justify-between">
+      {/* Top ZIP & Results Summary Bar - Compact typography */}
+      <div className="px-4 pt-2.5 pb-0.5">
+        <div className="flex items-center justify-between gap-2">
           <div>
-            <h2 className="text-xl font-black text-slate-900 flex items-center gap-1.5 leading-tight">
+            <h2 className="text-xs sm:text-[13px] font-bold text-slate-800 flex items-center gap-1 leading-tight">
               <span>{filteredPlans.length} plans available in</span>
-              <span className="text-blue-700 underline decoration-blue-300 decoration-2 underline-offset-4 cursor-pointer" onClick={() => setIsZipModalOpen(true)}>
+              <span className="text-blue-700 underline decoration-blue-300 decoration-1 underline-offset-2 cursor-pointer hover:text-blue-800 transition-colors" onClick={() => setIsZipModalOpen(true)}>
                 {zipCode}
               </span>
             </h2>
-            <p className="text-[11px] text-slate-500 mt-0.5">{countyState}</p>
+            <p className="text-[10px] text-slate-400 mt-0.5 font-medium">{countyState}</p>
           </div>
 
           <button
             onClick={() => setIsZipModalOpen(true)}
-            className="text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2.5 py-1.5 rounded-xl transition-colors cursor-pointer active:scale-95"
+            className="text-[10px] font-semibold text-blue-700 bg-blue-50/80 hover:bg-blue-100 border border-blue-200/70 px-2 py-0.5 rounded-lg transition-colors cursor-pointer active:scale-95 shrink-0"
           >
             Edit ZIP
           </button>
         </div>
       </div>
 
-      {/* Preferences Banner matching Screenshot 2: "Enter preferences to estimate your annual cost." */}
+      {/* Preferences Banner - Compact, modern, mobile-optimized */}
       <div className="px-4">
-        <div className="bg-[#EBF6FD] rounded-2xl p-3.5 border border-sky-200 shadow-xs space-y-2.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-sky-950">
-              Enter preferences to estimate your annual cost
-            </span>
-            <div className="flex items-center gap-1 text-slate-600">
-              <Stethoscope className="w-3.5 h-3.5 text-blue-600" />
-              <Heart className="w-3.5 h-3.5 text-rose-500" />
-              <Pill className="w-3.5 h-3.5 text-amber-500" />
-              <MapPin className="w-3.5 h-3.5 text-emerald-500" />
+        <div className="bg-[#EBF6FD] rounded-2xl p-3 border border-sky-200/90 shadow-xs">
+          <div className="flex items-start justify-between gap-2.5">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span className="text-xs font-bold text-sky-950 truncate">
+                  Personalized Cost Estimator
+                </span>
+                <div className="flex items-center gap-1 shrink-0">
+                  <Stethoscope className="w-3 h-3 text-blue-600" />
+                  <Heart className="w-3 h-3 text-rose-500" />
+                  <Pill className="w-3 h-3 text-amber-500" />
+                  <MapPin className="w-3 h-3 text-emerald-500" />
+                </div>
+              </div>
+              <p className="text-[11px] text-sky-800 leading-tight">
+                {userDoctorIds.length > 0 || userPrescriptions.length > 0
+                  ? `Configured with ${userDoctorIds.length} doctors & ${userPrescriptions.length} medications.`
+                  : 'Add prescriptions & doctors for exact out-of-pocket costs.'}
+              </p>
             </div>
+
+            <button
+              onClick={() => setIsWizardOpen(true)}
+              className="shrink-0 mt-0.5 py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 text-[11px] font-black transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+            >
+              <Sparkles className="w-3 h-3" />
+              <span>{userDoctorIds.length > 0 ? 'Update Preferences' : 'Preferences'}</span>
+            </button>
           </div>
-
-          <p className="text-[11px] text-sky-900 leading-snug">
-            {userDoctorIds.length > 0 || userPrescriptions.length > 0
-              ? `Currently configured with ${userDoctorIds.length} doctors and ${userPrescriptions.length} medications.`
-              : 'Add your current prescriptions and doctors to see exact out-of-pocket costs.'}
-          </p>
-
-          <button
-            onClick={() => setIsWizardOpen(true)}
-            className="w-full py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black transition-all shadow-xs text-center flex items-center justify-center gap-1.5 active:scale-[0.99]"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{userDoctorIds.length > 0 ? 'Update Preferences' : 'Add preferences'}</span>
-          </button>
         </div>
       </div>
 

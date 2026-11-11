@@ -1,20 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { MedicarePlan } from '../types';
 import { 
   X, 
-  Star, 
   Check, 
-  ShieldCheck, 
-  Info, 
   PhoneCall, 
-  Building2, 
-  Pill, 
-  Sparkles, 
   CheckCircle2, 
-  AlertCircle,
-  Bookmark,
-  Share2
+  Bookmark
 } from 'lucide-react';
 
 interface Props {
@@ -35,8 +27,23 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'benefits' | 'copays' | 'drugs' | 'network'>('benefits');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
   const isSaved = savedPlanIds.includes(plan.id);
   const isCompared = comparePlanIds.includes(plan.id);
+
+  // Prevent background page scrolling when modal is open
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+  const handleTabClick = (tabId: 'benefits' | 'copays' | 'drugs' | 'network', event: React.MouseEvent<HTMLButtonElement>) => {
+    setActiveTab(tabId);
+    event.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  };
 
   const handleEnrollQuote = () => {
     submitQuoteRequest({
@@ -55,87 +62,102 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
     navigateTo('saved-plans');
   };
 
+  const tabs = [
+    { id: 'benefits', label: 'Benefits & Perks' },
+    { id: 'copays', label: 'Doctor & Copays' },
+    { id: 'drugs', label: 'Rx Formularies' },
+    { id: 'network', label: 'Provider Network' },
+  ] as const;
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end justify-center p-0 overflow-hidden animate-in fade-in">
-      <div className="bg-white text-slate-900 w-full h-[94%] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden relative">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center p-0 overflow-hidden overscroll-none animate-in fade-in duration-200">
+      <div className="bg-white text-slate-900 w-full h-[92%] sm:h-[90%] max-w-lg rounded-t-3xl shadow-2xl flex flex-col overflow-hidden relative animate-in slide-in-from-bottom duration-300">
+        
+        {/* Mobile Pull Handle Indicator */}
+        <div className="bg-[#0F2544] pt-2 pb-1 flex justify-center shrink-0">
+          <div className="w-10 h-1 rounded-full bg-white/20" />
+        </div>
+
         {/* Sticky Header */}
-        <div className="bg-[#0F2544] text-white p-4 shrink-0 flex items-start justify-between border-b border-blue-900">
-          <div className="flex items-center gap-3">
+        <div className="bg-[#0F2544] text-white px-3.5 pb-3 pt-1 shrink-0 flex items-start justify-between border-b border-blue-900/50">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
             <img
               src={plan.carrierLogo}
               alt={plan.carrier}
-              className="w-12 h-12 rounded-2xl object-cover border-2 border-white shadow-sm"
+              className="w-10 h-10 rounded-xl object-cover border border-white/20 shadow-sm shrink-0"
             />
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-bold text-blue-200">{plan.carrier}</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-800 text-cyan-300 font-bold">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[11px] font-bold text-blue-200 truncate">{plan.carrier}</span>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-blue-800/80 text-cyan-300 font-bold shrink-0">
                   {plan.planType}
                 </span>
               </div>
-              <h3 className="text-sm sm:text-base font-bold text-white leading-tight">
+              <h3 className="text-sm font-bold text-white leading-snug truncate">
                 {plan.name}
               </h3>
-              <span className="text-[10px] text-blue-300 font-medium">
+              <span className="text-[10px] text-blue-300/80 font-medium block truncate">
                 Contract ID: {plan.contractId} • Plan Year {plan.effectiveYear}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={() => toggleSavePlan(plan.id)}
-              className={`p-2 rounded-full ${isSaved ? 'text-amber-400 bg-blue-800' : 'text-blue-200 hover:bg-blue-800'}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                isSaved ? 'text-amber-400 bg-white/15' : 'text-blue-200 bg-white/10 hover:bg-white/20'
+              }`}
               title={isSaved ? 'Saved' : 'Save Plan'}
+              aria-label="Save Plan"
             >
-              <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-amber-400' : ''}`} />
+              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-amber-400' : ''}`} />
             </button>
             <button
               onClick={onClose}
-              className="p-2 rounded-full text-blue-200 hover:bg-blue-800 hover:text-white"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-blue-200 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+              aria-label="Close details"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Cost Summary Banner */}
-        <div className="bg-slate-50 border-b border-slate-200 p-4 grid grid-cols-3 gap-2 text-center shrink-0">
-          <div>
-            <span className="text-[10px] text-slate-500 uppercase font-semibold block">Monthly Premium</span>
-            <span className="text-lg font-black text-emerald-600 block">
+        {/* Cost Summary Banner - Modern Compact Metrics */}
+        <div className="bg-slate-50/90 border-b border-slate-200/80 px-3 py-2 grid grid-cols-3 gap-1.5 text-center shrink-0">
+          <div className="bg-white rounded-xl py-1.5 px-1 border border-slate-200/60 shadow-2xs">
+            <span className="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Monthly Premium</span>
+            <span className="text-base font-black text-emerald-600 block leading-tight mt-0.5">
               ${plan.monthlyPremium.toFixed(2)}
             </span>
           </div>
-          <div className="border-x border-slate-200">
-            <span className="text-[10px] text-slate-500 uppercase font-semibold block">Med. Deductible</span>
-            <span className="text-lg font-black text-slate-800 block">
+          <div className="bg-white rounded-xl py-1.5 px-1 border border-slate-200/60 shadow-2xs">
+            <span className="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Med. Deductible</span>
+            <span className="text-base font-black text-slate-800 block leading-tight mt-0.5">
               ${plan.medicalDeductible}
             </span>
           </div>
-          <div>
-            <span className="text-[10px] text-slate-500 uppercase font-semibold block">Out-of-Pocket Max</span>
-            <span className="text-lg font-black text-slate-800 block">
+          <div className="bg-white rounded-xl py-1.5 px-1 border border-slate-200/60 shadow-2xs">
+            <span className="text-[9px] text-slate-500 uppercase font-bold tracking-wider block">Out-of-Pocket Max</span>
+            <span className="text-base font-black text-slate-800 block leading-tight mt-0.5">
               ${plan.maxOutOfPocket.toLocaleString()}
             </span>
           </div>
         </div>
 
-        {/* Tabs Bar */}
-        <div className="flex border-b border-slate-200 bg-white shrink-0">
-          {[
-            { id: 'benefits', label: 'Benefits & Perks' },
-            { id: 'copays', label: 'Doctor & Copays' },
-            { id: 'drugs', label: 'Rx Formularies' },
-            { id: 'network', label: 'Provider Network' },
-          ].map((tab) => (
+        {/* 1. Smooth Horizontal Scrolling Category Tabs (Single row, no-wrap) */}
+        <div 
+          ref={tabsContainerRef}
+          className="flex items-center gap-1.5 overflow-x-auto scroll-smooth overscroll-x-contain touch-pan-x no-scrollbar px-3 py-2 bg-white border-b border-slate-100 shrink-0 flex-nowrap"
+        >
+          {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`flex-1 py-2.5 text-xs font-bold text-center border-b-2 transition-colors ${
+              onClick={(e) => handleTabClick(tab.id, e)}
+              className={`shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap active:scale-95 cursor-pointer select-none ${
                 activeTab === tab.id
-                  ? 'border-blue-700 text-blue-700 bg-blue-50/40'
-                  : 'border-transparent text-slate-500 hover:text-slate-800'
+                  ? 'bg-blue-600 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200/70 hover:text-slate-900'
               }`}
             >
               {tab.label}
@@ -143,33 +165,33 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
           ))}
         </div>
 
-        {/* Tab Body */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* 2. Scrollable Body with Clean Layout & No Scrollbar */}
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden no-scrollbar overscroll-contain px-3.5 py-3 space-y-3">
           {/* TAB 1: Benefits & Perks */}
           {activeTab === 'benefits' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <div className="space-y-2">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-0.5">
                 Included Supplemental Coverages
               </h4>
 
-              <div className="grid grid-cols-1 gap-2.5">
+              <div className="grid grid-cols-1 gap-2">
                 {Object.entries(plan.benefits).map(([key, benefit]) => (
                   <div
                     key={key}
-                    className="p-3 rounded-2xl border border-slate-200 bg-white shadow-xs flex items-start gap-3"
+                    className="p-2.5 sm:p-3 rounded-2xl border border-slate-200/80 bg-white shadow-2xs hover:border-blue-200 transition-all flex items-start gap-2.5"
                   >
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${benefit.covered ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400'}`}>
-                      {benefit.covered ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
+                    <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${benefit.covered ? 'bg-emerald-50 text-emerald-600 border border-emerald-200/60' : 'bg-slate-100 text-slate-400'}`}>
+                      {benefit.covered ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : <X className="w-3.5 h-3.5" />}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-900">{benefit.name}</span>
-                        <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 flex-wrap sm:flex-nowrap">
+                        <span className="text-xs font-bold text-slate-900 leading-snug">{benefit.name}</span>
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full shrink-0 whitespace-nowrap">
                           {benefit.cost}
                         </span>
                       </div>
                       {benefit.description && (
-                        <p className="text-[11px] text-slate-500 mt-0.5">{benefit.description}</p>
+                        <p className="text-[11px] text-slate-500 mt-1 leading-snug">{benefit.description}</p>
                       )}
                     </div>
                   </div>
@@ -180,20 +202,20 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
 
           {/* TAB 2: Copays */}
           {activeTab === 'copays' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <div className="space-y-2">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-0.5">
                 Medical & Hospital Cost Sharing
               </h4>
 
-              <div className="space-y-2 bg-slate-50 rounded-2xl p-3 border border-slate-200 text-xs">
+              <div className="bg-white rounded-2xl p-2.5 border border-slate-200/80 shadow-2xs text-xs divide-y divide-slate-100">
                 {Object.entries(plan.copays).map(([service, copay]) => {
                   const formattedTitle = service
                     .replace(/([A-Z])/g, ' $1')
                     .replace(/^./, str => str.toUpperCase());
                   return (
-                    <div key={service} className="flex justify-between py-1.5 border-b border-slate-200/80 last:border-0">
-                      <span className="text-slate-600 font-medium">{formattedTitle}:</span>
-                      <span className="font-bold text-slate-900">{copay}</span>
+                    <div key={service} className="flex justify-between items-center py-2 first:pt-0 last:pb-0 gap-2">
+                      <span className="text-slate-600 font-medium text-[11px] leading-tight">{formattedTitle}</span>
+                      <span className="font-bold text-slate-900 bg-slate-50 border border-slate-200/60 px-2 py-0.5 rounded-lg shrink-0 text-xs">{copay}</span>
                     </div>
                   );
                 })}
@@ -203,38 +225,38 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
 
           {/* TAB 3: Prescription Drugs */}
           {activeTab === 'drugs' && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between px-0.5">
+                <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   Prescription Drug Tiers (Part D)
                 </h4>
-                <span className="text-[11px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
                   $2,000 Annual Cap
                 </span>
               </div>
 
               {plan.rxTiers && plan.rxTiers.length > 0 ? (
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   {plan.rxTiers.map((tier) => (
-                    <div key={tier.tier} className="p-3 rounded-2xl border border-slate-200 bg-white">
+                    <div key={tier.tier} className="p-2.5 sm:p-3 rounded-2xl border border-slate-200/80 bg-white shadow-2xs">
                       <div className="flex justify-between items-center mb-1.5">
                         <span className="text-xs font-bold text-slate-900">
                           Tier {tier.tier}: {tier.tierName}
                         </span>
-                        <span className="text-[10px] text-slate-400">30-day vs 90-day</span>
+                        <span className="text-[10px] text-slate-400 font-medium">Standard vs Preferred</span>
                       </div>
-                      <div className="grid grid-cols-3 gap-1.5 text-center text-[11px] bg-slate-50 p-2 rounded-xl">
+                      <div className="grid grid-cols-3 gap-1.5 text-center text-[11px] bg-slate-50/80 p-2 rounded-xl border border-slate-100">
                         <div>
-                          <span className="text-[9px] text-slate-500 block">Pref. Retail</span>
-                          <span className="font-bold text-emerald-700">{tier.preferredRetail30Day}</span>
+                          <span className="text-[9px] text-slate-500 block font-medium">Pref. Retail</span>
+                          <span className="font-bold text-emerald-700 text-xs">{tier.preferredRetail30Day}</span>
                         </div>
                         <div className="border-x border-slate-200">
-                          <span className="text-[9px] text-slate-500 block">Std. Retail</span>
-                          <span className="font-bold text-slate-700">{tier.standardRetail30Day}</span>
+                          <span className="text-[9px] text-slate-500 block font-medium">Std. Retail</span>
+                          <span className="font-bold text-slate-700 text-xs">{tier.standardRetail30Day}</span>
                         </div>
                         <div>
-                          <span className="text-[9px] text-slate-500 block">90-Day Mail</span>
-                          <span className="font-bold text-blue-700">{tier.mailOrder90Day}</span>
+                          <span className="text-[9px] text-slate-500 block font-medium">90-Day Mail</span>
+                          <span className="font-bold text-blue-700 text-xs">{tier.mailOrder90Day}</span>
                         </div>
                       </div>
                     </div>
@@ -255,81 +277,87 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
 
           {/* TAB 4: Network */}
           {activeTab === 'network' && (
-            <div className="space-y-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <div className="space-y-2">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-0.5">
                 Provider & Hospital Network
               </h4>
 
               {plan.networkSize && (
-                <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="bg-blue-50 p-3 rounded-2xl border border-blue-100">
-                    <span className="text-xl font-black text-blue-900 block">{plan.networkSize.doctors.toLocaleString()}</span>
+                <div className="grid grid-cols-3 gap-1.5 text-center">
+                  <div className="bg-blue-50/70 p-2 rounded-2xl border border-blue-100">
+                    <span className="text-base sm:text-lg font-black text-blue-900 block leading-tight">{plan.networkSize.doctors.toLocaleString()}</span>
                     <span className="text-[10px] text-blue-700 font-medium">Doctors</span>
                   </div>
-                  <div className="bg-emerald-50 p-3 rounded-2xl border border-emerald-100">
-                    <span className="text-xl font-black text-emerald-900 block">{plan.networkSize.hospitals}</span>
+                  <div className="bg-emerald-50/70 p-2 rounded-2xl border border-emerald-100">
+                    <span className="text-base sm:text-lg font-black text-emerald-900 block leading-tight">{plan.networkSize.hospitals}</span>
                     <span className="text-[10px] text-emerald-700 font-medium">Hospitals</span>
                   </div>
-                  <div className="bg-purple-50 p-3 rounded-2xl border border-purple-100">
-                    <span className="text-xl font-black text-purple-900 block">{plan.networkSize.pharmacies}</span>
+                  <div className="bg-purple-50/70 p-2 rounded-2xl border border-purple-100">
+                    <span className="text-base sm:text-lg font-black text-purple-900 block leading-tight">{plan.networkSize.pharmacies}</span>
                     <span className="text-[10px] text-purple-700 font-medium">Pharmacies</span>
                   </div>
                 </div>
               )}
 
-              <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 space-y-2">
+              <div className="p-2.5 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-2">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Network includes Texas Health Presbyterian, Baylor Scott & White, and Medical City Dallas.</span>
+                  <span className="text-[11px] leading-snug">Network includes Texas Health Presbyterian, Baylor Scott & White, and Medical City Dallas.</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Preferred pharmacy status with CVS, Walgreens, and Kroger.</span>
+                  <span className="text-[11px] leading-snug">Preferred pharmacy status with CVS, Walgreens, and Kroger.</span>
                 </div>
               </div>
             </div>
           )}
 
           {/* Disclaimers & CMS Regulatory Notice */}
-          <div className="text-[10px] text-slate-400 bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="text-[10px] text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-slate-200/70 space-y-1">
             <p className="font-semibold text-slate-500">Official CMS Notice:</p>
-            <p>Every year, Medicare evaluates plans based on a 5-star rating system. Plan availability and benefits can change on January 1 of each year.</p>
+            <p className="leading-snug">Every year, Medicare evaluates plans based on a 5-star rating system. Plan availability and benefits can change on January 1 of each year.</p>
           </div>
         </div>
 
-        {/* Fixed Footer CTAs */}
-        <div className="p-4 bg-white border-t border-slate-200 shrink-0 flex items-center gap-2.5">
-          <button
-            onClick={() => {
-              onClose();
-              toggleAgentChat(true);
-            }}
-            className="p-3 rounded-2xl border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center shrink-0"
-            title="Ask agent about this plan"
-          >
-            <PhoneCall className="w-5 h-5 text-blue-700" />
-          </button>
+        {/* Compact, Properly Sized Bottom Action Bar */}
+        <div className="py-2 px-3 bg-white border-t border-slate-200/80 shrink-0 flex items-center justify-between gap-2 shadow-[0_-2px_8px_rgba(0,0,0,0.03)] z-10">
+          <div className="flex items-center gap-1.5">
+            {/* Call Agent Button */}
+            <button
+              onClick={() => {
+                onClose();
+                toggleAgentChat(true);
+              }}
+              className="w-8 h-8 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer"
+              title="Ask agent about this plan"
+              aria-label="Call or chat with agent"
+            >
+              <PhoneCall className="w-3.5 h-3.5 text-blue-700" />
+            </button>
 
-          <button
-            onClick={() => toggleComparePlan(plan.id)}
-            className={`py-3 px-3.5 rounded-2xl text-xs font-bold border transition-colors shrink-0 ${
-              isCompared
-                ? 'bg-blue-100 text-blue-900 border-blue-300'
-                : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-50'
-            }`}
-          >
-            {isCompared ? 'In Comparison' : 'Compare'}
-          </button>
+            {/* Compare Button */}
+            <button
+              onClick={() => toggleComparePlan(plan.id)}
+              className={`h-8 px-2.5 rounded-lg text-[10px] font-bold border transition-all shrink-0 active:scale-95 flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap ${
+                isCompared
+                  ? 'bg-blue-50 text-blue-900 border-blue-200'
+                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              {isCompared ? 'In Comparison' : 'Compare'}
+            </button>
+          </div>
 
+          {/* Primary CTA: Get Quote & Enroll - Compact Size */}
           <button
             onClick={handleEnrollQuote}
-            className="flex-1 py-3 px-4 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all shadow-md active:scale-95 text-center flex items-center justify-center gap-1.5"
+            className="h-8 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-[11px] transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
           >
             <span>Get Quote & Enroll</span>
           </button>
         </div>
+
       </div>
     </div>
   );
 };
-

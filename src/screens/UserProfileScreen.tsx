@@ -2,10 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   User, 
-  MapPin, 
-  Calendar, 
-  CreditCard, 
-  ShieldCheck, 
   Settings, 
   LogOut, 
   Bookmark, 
@@ -16,13 +12,12 @@ import {
   ChevronRight, 
   HelpCircle, 
   Save, 
-  Check, 
   Camera, 
   Eye, 
   Upload, 
   Trash2, 
   X,
-  Sparkles
+  ShieldCheck
 } from 'lucide-react';
 
 export const UserProfileScreen: React.FC = () => {
@@ -93,7 +88,7 @@ export const UserProfileScreen: React.FC = () => {
   const shortName = `${formData.firstName?.charAt(0) || 'E'}${formData.lastName?.charAt(0) || 'V'}`;
 
   return (
-    <div className="pb-10 p-4 space-y-4">
+    <div className="bg-white min-h-full pb-28 px-3.5 pt-3 space-y-3.5">
       {/* Hidden Native File Input for Photo Upload */}
       <input
         type="file"
@@ -103,16 +98,16 @@ export const UserProfileScreen: React.FC = () => {
         className="hidden"
       />
 
-      {/* Profile Header Card */}
-      <div className="bg-gradient-to-br from-[#0F2544] via-blue-900 to-indigo-900 rounded-3xl p-5 text-white shadow-lg space-y-3 relative overflow-hidden">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+      {/* Clean Modern White Profile Header Card with Dark High-Contrast Text */}
+      <div className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-2xs space-y-3 relative">
+        <div className="flex items-start justify-between gap-2.5">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             {/* Profile Avatar / Photo with Camera overlay & Click-to-view */}
             <div className="relative group shrink-0">
               <button
                 type="button"
                 onClick={() => setIsViewPhotoModalOpen(true)}
-                className="w-16 h-16 rounded-2xl overflow-hidden focus:outline-none ring-2 ring-white/30 shadow-md transition-transform active:scale-95 flex items-center justify-center bg-amber-400 text-slate-950 font-black text-2xl select-none"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden focus:outline-none ring-2 ring-blue-100 shadow-xs transition-transform active:scale-95 flex items-center justify-center bg-blue-50 text-blue-900 font-black text-xl select-none cursor-pointer"
                 title="Click to view profile picture"
               >
                 {formData.photoUrl ? (
@@ -130,22 +125,21 @@ export const UserProfileScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsPhotoMenuOpen(true)}
-                className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-md border-2 border-[#0F2544] transition-all cursor-pointer active:scale-90"
+                className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-xs border-2 border-white transition-all cursor-pointer active:scale-90"
                 title="Update Profile Photo"
               >
                 <Camera className="w-3 h-3" />
               </button>
             </div>
 
-            <div>
-              <div className="flex items-center gap-1.5">
-                <h2 className="text-lg font-black text-white leading-tight">
-                  {formData.firstName} {formData.lastName}
-                </h2>
-              </div>
-              <span className="text-xs text-blue-200 block">{formData.email}</span>
-              <span className="text-[10px] text-amber-300 font-semibold mt-0.5 block">
-                Medicare Beneficiary ID: {formData.medicareNumber}
+            <div className="min-w-0 flex-1">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-tight truncate">
+                {formData.firstName} {formData.lastName}
+              </h2>
+              <span className="text-xs text-slate-500 block leading-tight truncate mt-0.5">{formData.email}</span>
+              
+              <span className="text-[10px] text-blue-800 font-semibold bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-lg inline-block mt-1">
+                Medicare ID: {formData.medicareNumber}
               </span>
 
               {/* View / Change photo button links */}
@@ -153,16 +147,16 @@ export const UserProfileScreen: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsViewPhotoModalOpen(true)}
-                  className="text-[10px] text-cyan-300 hover:text-white flex items-center gap-0.5 underline font-medium cursor-pointer"
+                  className="text-[11px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <Eye className="w-3 h-3" />
                   <span>View Photo</span>
                 </button>
-                <span className="text-white/40 text-[10px]">•</span>
+                <span className="text-slate-300 text-[10px]">•</span>
                 <button
                   type="button"
                   onClick={() => setIsPhotoMenuOpen(true)}
-                  className="text-[10px] text-cyan-300 hover:text-white flex items-center gap-0.5 underline font-medium cursor-pointer"
+                  className="text-[11px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <Camera className="w-3 h-3" />
                   <span>Change</span>
@@ -171,42 +165,58 @@ export const UserProfileScreen: React.FC = () => {
             </div>
           </div>
 
+          {/* Edit Profile Button */}
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold backdrop-blur-sm transition-colors shrink-0"
+            className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200/80 text-xs font-bold transition-all shrink-0 cursor-pointer active:scale-95"
           >
             {isEditing ? 'Cancel' : 'Edit'}
           </button>
         </div>
 
-        {/* Assets quick count counter row */}
-        <div className="grid grid-cols-4 gap-1.5 pt-2 border-t border-blue-800 text-center">
-          <button onClick={() => navigateTo('saved-plans')} className="p-2 rounded-xl bg-white/10 hover:bg-white/15 transition-colors cursor-pointer">
-            <span className="text-sm font-black text-white block">{savedPlanIds.length}</span>
-            <span className="text-[9px] text-blue-200 font-medium">Saved</span>
+        {/* 4 Counter Summary Boxes */}
+        <div className="grid grid-cols-4 gap-1.5 pt-2.5 border-t border-slate-100 text-center">
+          <button 
+            onClick={() => navigateTo('saved-plans')} 
+            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
+          >
+            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{savedPlanIds.length}</span>
+            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Saved</span>
           </button>
-          <button onClick={() => navigateTo('my-doctors')} className="p-2 rounded-xl bg-white/10 hover:bg-white/15 transition-colors cursor-pointer">
-            <span className="text-sm font-black text-white block">{userDoctorIds.length}</span>
-            <span className="text-[9px] text-blue-200 font-medium">Doctors</span>
+
+          <button 
+            onClick={() => navigateTo('my-doctors')} 
+            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
+          >
+            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userDoctorIds.length}</span>
+            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Doctors</span>
           </button>
-          <button onClick={() => navigateTo('my-pharmacies')} className="p-2 rounded-xl bg-white/10 hover:bg-white/15 transition-colors cursor-pointer">
-            <span className="text-sm font-black text-white block">{userPharmacyIds.length}</span>
-            <span className="text-[9px] text-blue-200 font-medium">Pharmacies</span>
+
+          <button 
+            onClick={() => navigateTo('my-pharmacies')} 
+            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
+          >
+            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userPharmacyIds.length}</span>
+            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Pharmacies</span>
           </button>
-          <button onClick={() => navigateTo('my-prescriptions')} className="p-2 rounded-xl bg-white/10 hover:bg-white/15 transition-colors cursor-pointer">
-            <span className="text-sm font-black text-white block">{userPrescriptions.length}</span>
-            <span className="text-[9px] text-blue-200 font-medium">Meds</span>
+
+          <button 
+            onClick={() => navigateTo('my-prescriptions')} 
+            className="p-2 rounded-2xl bg-slate-50 hover:bg-blue-50/70 border border-slate-200/70 transition-all cursor-pointer group active:scale-95"
+          >
+            <span className="text-sm sm:text-base font-black text-slate-900 block group-hover:text-blue-700 transition-colors">{userPrescriptions.length}</span>
+            <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Meds</span>
           </button>
         </div>
       </div>
 
       {/* MODAL 1: View Profile Picture Modal */}
       {isViewPhotoModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-[340px] w-full p-5 text-slate-900 shadow-2xl relative animate-in fade-in zoom-in-95">
             <button
               onClick={() => setIsViewPhotoModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -222,7 +232,7 @@ export const UserProfileScreen: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-tr from-[#0F2544] to-blue-700 text-white font-black text-5xl flex items-center justify-center select-none">
+                <div className="w-full h-full bg-blue-50 text-blue-900 font-black text-5xl flex items-center justify-center select-none">
                   {shortName}
                 </div>
               )}
@@ -231,7 +241,7 @@ export const UserProfileScreen: React.FC = () => {
             <div className="text-center mt-3">
               <h4 className="font-bold text-base text-slate-900">{formData.firstName} {formData.lastName}</h4>
               <p className="text-[11px] text-slate-500">{formData.email}</p>
-              <span className="text-[10px] text-blue-700 font-semibold bg-blue-50 px-2 py-0.5 rounded-full inline-block mt-1">
+              <span className="text-[10px] text-blue-700 font-semibold bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-full inline-block mt-1">
                 {formData.photoUrl ? 'Custom Profile Photo' : `Short Name Initials: "${shortName}"`}
               </span>
             </div>
@@ -243,7 +253,7 @@ export const UserProfileScreen: React.FC = () => {
                   setIsViewPhotoModalOpen(false);
                   setIsPhotoMenuOpen(true);
                 }}
-                className="flex-1 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer active:scale-98"
               >
                 <Camera className="w-3.5 h-3.5" />
                 <span>Change Photo</span>
@@ -252,7 +262,7 @@ export const UserProfileScreen: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleRemovePhoto}
-                  className="px-3 py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold text-xs flex items-center justify-center gap-1 transition-colors"
+                  className="px-3 py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold text-xs flex items-center justify-center gap-1 transition-colors cursor-pointer active:scale-98"
                   title="Remove and use short name initials"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -266,16 +276,16 @@ export const UserProfileScreen: React.FC = () => {
 
       {/* MODAL 2: Update Profile Photo Options Modal */}
       {isPhotoMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-[360px] w-full p-5 text-slate-900 shadow-2xl relative animate-in fade-in zoom-in-95 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <Camera className="w-5 h-5 text-blue-700" />
+                <Camera className="w-5 h-5 text-blue-600" />
                 <h3 className="text-sm font-bold text-slate-900">Update Profile Picture</h3>
               </div>
               <button
                 onClick={() => setIsPhotoMenuOpen(false)}
-                className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -286,10 +296,10 @@ export const UserProfileScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full p-3.5 rounded-2xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-900 flex items-center justify-between transition-colors active:scale-98"
+                className="w-full p-3.5 rounded-2xl bg-blue-50/70 hover:bg-blue-100/70 border border-blue-200 text-blue-900 flex items-center justify-between transition-colors active:scale-98 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-700 text-white flex items-center justify-center shadow-xs">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs">
                     <Upload className="w-5 h-5" />
                   </div>
                   <div className="text-left">
@@ -306,7 +316,7 @@ export const UserProfileScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={handleRemovePhoto}
-                className="flex-1 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                className="flex-1 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>Use Short Name ({shortName})</span>
@@ -314,7 +324,7 @@ export const UserProfileScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setIsPhotoMenuOpen(false)}
-                className="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
+                className="py-2 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
               >
                 Close
               </button>
@@ -325,13 +335,13 @@ export const UserProfileScreen: React.FC = () => {
 
       {/* Profile Edit Form */}
       {isEditing && (
-        <form onSubmit={handleSave} className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-3 text-xs animate-in fade-in">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-slate-800 uppercase tracking-wider text-xs">Edit Personal Details</h3>
+        <form onSubmit={handleSave} className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-xs space-y-3 text-xs animate-in fade-in">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+            <h3 className="font-bold text-slate-900 uppercase tracking-wider text-xs">Edit Personal Details</h3>
             <button
               type="button"
               onClick={() => setIsPhotoMenuOpen(true)}
-              className="text-[11px] font-bold text-blue-700 hover:text-blue-900 flex items-center gap-1"
+              className="text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 cursor-pointer"
             >
               <Camera className="w-3.5 h-3.5" />
               <span>Change Photo</span>
@@ -340,42 +350,42 @@ export const UserProfileScreen: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">First Name</label>
+              <label className="block font-bold text-slate-700 mb-1 text-[11px]">First Name</label>
               <input
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-slate-900 text-xs"
               />
             </div>
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Last Name</label>
+              <label className="block font-bold text-slate-700 mb-1 text-[11px]">Last Name</label>
               <input
                 type="text"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-slate-900 text-xs"
               />
             </div>
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Phone Number</label>
+            <label className="block font-bold text-slate-700 mb-1 text-[11px]">Phone Number</label>
             <input
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300"
+              className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-slate-900 text-xs"
             />
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Medicare Number</label>
+            <label className="block font-bold text-slate-700 mb-1 text-[11px]">Medicare Number</label>
             <input
               type="text"
               value={formData.medicareNumber}
               onChange={(e) => setFormData({ ...formData, medicareNumber: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono"
+              className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-slate-900 text-xs font-mono"
             />
           </div>
 
@@ -387,13 +397,13 @@ export const UserProfileScreen: React.FC = () => {
                 onChange={(e) => setFormData({ ...formData, hasMedicaid: e.target.checked })}
                 className="w-4 h-4 text-blue-600 rounded"
               />
-              <span className="font-medium text-slate-700">Enrolled in Medicaid (D-SNP Eligible)</span>
+              <span className="font-medium text-slate-700 text-xs">Enrolled in Medicaid (D-SNP Eligible)</span>
             </label>
           </div>
 
           <button
             type="submit"
-            className="w-full py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98"
           >
             <Save className="w-4 h-4" />
             <span>Save Profile</span>
@@ -402,7 +412,7 @@ export const UserProfileScreen: React.FC = () => {
       )}
 
       {/* Navigation Links Group */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-xs divide-y divide-slate-100 overflow-hidden text-xs">
+      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-2xs divide-y divide-slate-100 overflow-hidden text-xs">
         {[
           { label: 'Saved Plans & Cart', icon: Bookmark, screen: 'saved-plans', count: `${savedPlanIds.length} plans` },
           { label: 'My Doctors Directory', icon: Stethoscope, screen: 'my-doctors', count: `${userDoctorIds.length} doctors` },
@@ -418,17 +428,17 @@ export const UserProfileScreen: React.FC = () => {
             <button
               key={i}
               onClick={() => navigateTo(item.screen as any)}
-              className="w-full p-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left cursor-pointer"
+              className="w-full p-3.5 flex items-center justify-between hover:bg-blue-50/40 active:bg-blue-50 transition-colors text-left cursor-pointer group"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-xl bg-slate-100 text-blue-700 flex items-center justify-center">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-blue-50/80 text-blue-600 border border-blue-100/60 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   <Icon className="w-4 h-4" />
                 </div>
-                <span className="font-bold text-slate-800 text-xs">{item.label}</span>
+                <span className="font-bold text-slate-800 text-xs truncate">{item.label}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0 ml-2">
                 {item.count && <span className="text-[11px] text-slate-400 font-medium">{item.count}</span>}
-                <ChevronRight className="w-4 h-4 text-slate-400" />
+                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
               </div>
             </button>
           );
@@ -441,10 +451,10 @@ export const UserProfileScreen: React.FC = () => {
           logout();
           navigateTo('login');
         }}
-        className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-700 border border-slate-200 hover:border-rose-200 text-xs font-bold transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+        className="w-full py-2.5 rounded-2xl bg-white hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200/90 hover:border-rose-200 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs active:scale-98"
       >
-        <LogOut className="w-4 h-4" />
-        <span>Log Out of PlanEnroll</span>
+        <LogOut className="w-4 h-4 text-rose-500" />
+        <span>Log Out</span>
       </button>
     </div>
   );
