@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { MedicarePlan } from '../types';
 import { 
@@ -10,7 +10,8 @@ import {
   Heart, 
   Eye, 
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  ChevronDown
 } from 'lucide-react';
 
 interface PlanCardProps {
@@ -30,6 +31,8 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
     submitQuoteRequest,
     userProfile
   } = useApp();
+
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const isCompared = comparePlanIds.includes(plan.id);
   const isSaved = savedPlanIds.includes(plan.id);
@@ -60,8 +63,8 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-xs transition-all overflow-hidden flex flex-col justify-between">
-      {/* Top Header Row: Carrier Info, Compare Button & Bookmark */}
+    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-all overflow-hidden flex flex-col justify-between">
+      {/* 1. Header Row: Carrier Info, Compare Button & Bookmark */}
       <div className="p-3.5 pb-2.5 flex items-start justify-between gap-2 border-b border-slate-100">
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <img
@@ -71,7 +74,9 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
           />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs font-bold text-slate-900 leading-tight truncate">{plan.carrier}</span>
+              <span className="text-xs font-bold text-slate-900 leading-tight truncate">
+                {plan.carrier}
+              </span>
               <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/60 leading-none">
                 {plan.planType}
               </span>
@@ -117,13 +122,13 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
         </div>
       </div>
 
-      {/* Main Body */}
+      {/* 2. Main Body Content */}
       <div className="p-3.5 pt-2.5 space-y-2.5">
         {/* Plan Title & Subtype */}
         <div>
           <h4 
             onClick={handleDetailsClick}
-            className="font-bold text-sm sm:text-[15px] text-slate-900 leading-snug hover:text-blue-700 cursor-pointer transition-colors"
+            className="font-bold text-[14px] sm:text-[15px] text-slate-900 leading-snug hover:text-blue-700 cursor-pointer transition-colors"
           >
             {plan.name}
           </h4>
@@ -160,52 +165,53 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
           </span>
         </div>
 
-        {/* Unified Financial Metrics Section (Blue-and-White Theme) */}
-        <div className="bg-slate-50/80 rounded-xl p-3 border border-slate-200/70 space-y-2.5">
-          {/* Top row: Monthly Premium & Deductibles */}
-          <div className="flex items-baseline justify-between gap-2">
+        {/* 3. High-Contrast Dual-Column Financials Section */}
+        <div className="bg-slate-50/90 rounded-xl p-3 border border-slate-200/70">
+          <div className="grid grid-cols-2 gap-3 divide-x divide-slate-200/80">
+            {/* Monthly Premium */}
             <div>
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">
-                Monthly plan premium
+                Monthly Premium
               </span>
               <div className="flex items-baseline gap-1 mt-0.5">
-                <span className="text-2xl font-black text-slate-900 tracking-tight">
+                <span className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   ${plan.monthlyPremium.toFixed(2)}
                 </span>
-                <span className="text-xs text-slate-500 font-medium">/mo</span>
+                <span className="text-[11px] text-slate-500 font-medium">/mo</span>
+              </div>
+              <div className="text-[11px] text-slate-600 font-medium mt-1">
+                Deductible: <span className="font-bold text-slate-900">${plan.medicalDeductible}</span>
               </div>
             </div>
 
-            <div className="text-right space-y-0.5">
-              <div className="text-[11px] text-slate-600 font-medium">
-                Deductible: <span className="font-bold text-slate-900">${plan.medicalDeductible}</span>
+            {/* Total Estimated Annual Cost */}
+            <div className="pl-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] text-blue-700 font-bold uppercase tracking-wider block">
+                  Est. Annual Cost
+                </span>
+                <button
+                  type="button"
+                  onClick={() => navigateTo('personalized-quote')}
+                  className="text-[10px] text-blue-600 hover:text-blue-800 font-bold hover:underline cursor-pointer"
+                >
+                  Edit
+                </button>
               </div>
-              <div className="text-[11px] text-slate-600 font-medium">
+              <div className="flex items-baseline gap-1 mt-0.5">
+                <span className="text-xl sm:text-2xl font-black text-blue-700 tracking-tight">
+                  ${estAnnualCost.toLocaleString()}
+                </span>
+                <span className="text-[11px] text-blue-600/80 font-medium">/yr</span>
+              </div>
+              <div className="text-[11px] text-slate-600 font-medium mt-1">
                 Max OOP: <span className="font-bold text-slate-900">${plan.maxOutOfPocket.toLocaleString()}</span>
               </div>
             </div>
           </div>
-
-          {/* Integrated Est. Annual Cost Banner */}
-          <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-                Total Est. Annual Cost:
-              </span>
-              <span className="text-xs font-black text-blue-700">
-                ${estAnnualCost.toLocaleString()}
-              </span>
-            </div>
-            <button
-              onClick={() => navigateTo('personalized-quote')}
-              className="text-[11px] text-blue-600 hover:text-blue-800 font-bold hover:underline transition-colors cursor-pointer"
-            >
-              Edit preferences
-            </button>
-          </div>
         </div>
 
-        {/* Benefits Highlights Chips (Consistent Blue & White Palette) */}
+        {/* 4. Compact Benefits Highlights Chips */}
         <div className="flex flex-wrap gap-1.5 pt-0.5">
           {plan.benefits.dental.covered && (
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-blue-50/80 text-blue-800 text-[10px] font-semibold border border-blue-200/60">
@@ -233,19 +239,75 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
           )}
         </div>
 
-        {/* Compact, Properly Aligned Action Buttons Footer */}
+        {/* 5. Collapsible Copays & Key Highlights Drawer */}
+        <div className="pt-0.5">
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="w-full flex items-center justify-between py-1.5 px-2.5 rounded-lg bg-slate-50 hover:bg-slate-100/90 text-[11px] font-semibold text-slate-600 transition-colors cursor-pointer border border-slate-200/60"
+          >
+            <span className="flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-blue-600" />
+              <span>{isExpanded ? 'Hide Key Copays & Perks' : 'View Key Copays & Highlights'}</span>
+            </span>
+            <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+          </button>
+
+          {isExpanded && (
+            <div className="mt-2 p-2.5 rounded-xl bg-slate-50/90 border border-slate-200/70 space-y-2 animate-in fade-in duration-150">
+              <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+                <div className="flex items-center justify-between p-1.5 rounded-lg bg-white border border-slate-200/70 shadow-2xs">
+                  <span className="text-slate-500">Primary Care:</span>
+                  <span className="font-bold text-slate-900">{plan.copays.primaryCareDoctor}</span>
+                </div>
+                <div className="flex items-center justify-between p-1.5 rounded-lg bg-white border border-slate-200/70 shadow-2xs">
+                  <span className="text-slate-500">Specialist:</span>
+                  <span className="font-bold text-slate-900">{plan.copays.specialist}</span>
+                </div>
+                <div className="flex items-center justify-between p-1.5 rounded-lg bg-white border border-slate-200/70 shadow-2xs">
+                  <span className="text-slate-500">Urgent Care:</span>
+                  <span className="font-bold text-slate-900">{plan.copays.urgentCare}</span>
+                </div>
+                <div className="flex items-center justify-between p-1.5 rounded-lg bg-white border border-slate-200/70 shadow-2xs">
+                  <span className="text-slate-500">Drug Deductible:</span>
+                  <span className="font-bold text-slate-900">${plan.drugDeductible}</span>
+                </div>
+              </div>
+
+              {plan.summaryHighlights && plan.summaryHighlights.length > 0 && (
+                <div className="pt-1.5 border-t border-slate-200/70">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                    Top Plan Highlights
+                  </span>
+                  <ul className="space-y-1">
+                    {plan.summaryHighlights.slice(0, 3).map((item, idx) => (
+                      <li key={idx} className="text-[11px] text-slate-600 flex items-start gap-1.5">
+                        <Check className="w-3 h-3 text-emerald-600 shrink-0 mt-0.5" />
+                        <span className="line-clamp-1">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* 6. Clean, Compact, Properly Aligned Action Buttons Footer */}
         <div className="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
           <button
+            type="button"
             onClick={handleDetailsClick}
-            className="h-8.5 px-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-98"
+            className="h-9 px-3 rounded-xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 shadow-2xs"
           >
             <Info className="w-3.5 h-3.5 text-slate-500" />
             <span>Plan Details</span>
           </button>
 
           <button
+            type="button"
             onClick={handleGetQuoteClick}
-            className="h-8.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
+            className="h-9 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
           >
             <span>Add to Cart</span>
             <ArrowRight className="w-3.5 h-3.5" />
