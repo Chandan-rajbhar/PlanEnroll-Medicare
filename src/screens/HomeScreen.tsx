@@ -15,7 +15,8 @@ import {
   BookOpen, 
   Phone,
   ChevronRight,
-  CheckCircle2
+  CheckCircle2,
+  MapPin
 } from 'lucide-react';
 
 export const HomeScreen: React.FC = () => {
@@ -24,6 +25,7 @@ export const HomeScreen: React.FC = () => {
     navigateTo, 
     zipCode, 
     countyState,
+    setIsZipModalOpen,
     userPrescriptions,
     updateFilters
   } = useApp();
@@ -39,7 +41,7 @@ export const HomeScreen: React.FC = () => {
   };
 
   return (
-    <div className="pb-10 space-y-4">
+    <div className="pb-10 space-y-3.5">
       {/* Search Bar matching Rightway Screenshot 2 ("Find the lowest drug prices") */}
       <div className="px-4 pt-2">
         <form onSubmit={handleSearchSubmit} className="relative">
@@ -48,16 +50,37 @@ export const HomeScreen: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search plans, drugs, or doctors in 75080..."
+            placeholder={`Search plans, drugs, or doctors in ${zipCode}...`}
             className="w-full pl-10 pr-24 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-xs text-slate-800 placeholder-slate-400"
           />
           <button
             type="submit"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-blue-700 text-white text-[11px] font-bold hover:bg-blue-800 shadow-xs"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-blue-700 text-white text-[11px] font-bold hover:bg-blue-800 shadow-xs cursor-pointer active:scale-95"
           >
             Search
           </button>
         </form>
+      </div>
+
+      {/* Coverage Area Banner - Native mobile scrollable card (Clean & not fixed to top) */}
+      <div className="mx-4 flex items-center justify-between px-3.5 py-2 rounded-2xl bg-white border border-slate-200/90 shadow-2xs">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+            <MapPin className="w-3.5 h-3.5 text-blue-600" />
+          </div>
+          <div>
+            <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block leading-none">Coverage Area</span>
+            <span className="text-xs font-bold text-slate-900 mt-0.5 block leading-tight">
+              {zipCode} <span className="font-normal text-slate-500 text-[11px]">({countyState})</span>
+            </span>
+          </div>
+        </div>
+        <button
+          onClick={() => setIsZipModalOpen(true)}
+          className="text-[11px] font-bold text-blue-700 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl border border-blue-200/80 transition-colors active:scale-95 cursor-pointer"
+        >
+          Change
+        </button>
       </div>
 
       {/* Floating Agent Banner matching Screenshot 2 */}

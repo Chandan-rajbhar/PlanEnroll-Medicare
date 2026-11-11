@@ -1,10 +1,37 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { MessageSquare, Phone, Inbox, ShieldCheck, HeartHandshake, X } from 'lucide-react';
+import { MessageSquare, Phone, Inbox, ShieldCheck, HeartHandshake, X, Mail } from 'lucide-react';
 
 export const AgentBanner: React.FC<{ className?: string }> = ({ className = '' }) => {
   const { toggleAgentChat, navigateTo, unreadNotificationCount } = useApp();
   const [showCallModal, setShowCallModal] = useState(false);
+
+  const handleInboxClick = (e: React.MouseEvent) => {
+    const recipient = 'support@planenroll.com';
+    const subject = encodeURIComponent('Medicare Coverage & Plan Inquiry - PlanEnroll');
+    const body = encodeURIComponent(
+      'Hello Licensed Medicare Agent,\n\nI am contacting you from the PlanEnroll Medicare Mobile Portal regarding 2026 Medicare plan options in my area (ZIP: 75080).\n\nPlease assist me with:\n- Verifying in-network doctors & hospitals\n- Estimating prescription medication costs & copays\n- Comparing Medicare Advantage vs. Medigap Supplement plans\n\nThank you!'
+    );
+
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (!isMobile) {
+      // On desktop browsers, open Gmail Web compose in a new tab directly
+      e.preventDefault();
+      window.open(gmailWebUrl, '_blank', 'noopener,noreferrer');
+    }
+    // On mobile devices, allow default mailto to launch the native Gmail / Mail app
+  };
+
+  const recipient = 'support@planenroll.com';
+  const defaultSubject = encodeURIComponent('Medicare Coverage & Plan Inquiry - PlanEnroll');
+  const defaultBody = encodeURIComponent(
+    'Hello Licensed Medicare Agent,\n\nI am contacting you from the PlanEnroll Medicare Mobile Portal regarding 2026 Medicare plan options in my area (ZIP: 75080).\n\nPlease assist me with:\n- Verifying in-network doctors & hospitals\n- Estimating prescription medication costs & copays\n- Comparing Medicare Advantage vs. Medigap Supplement plans\n\nThank you!'
+  );
+  const mailtoLink = `mailto:${recipient}?subject=${defaultSubject}&body=${defaultBody}`;
 
   return (
     <>
@@ -47,21 +74,23 @@ export const AgentBanner: React.FC<{ className?: string }> = ({ className = '' }
                 <span className="text-[11px] font-semibold text-slate-700 mt-1 group-hover:text-emerald-700">Call</span>
               </button>
 
-              {/* Inbox Action */}
-              <button
-                onClick={() => navigateTo('notifications')}
+              {/* Inbox Action - Navigates directly to Gmail / Mail client */}
+              <a
+                href={mailtoLink}
+                onClick={handleInboxClick}
                 className="flex flex-col items-center group cursor-pointer relative"
+                title="Send email via Gmail / Email app"
               >
                 <div className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200/90 flex items-center justify-center text-blue-700 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
                   <Inbox className="w-4 h-4" />
                 </div>
                 {unreadNotificationCount > 0 && (
-                  <span className="absolute 1 -top-1 right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow">
                     {unreadNotificationCount}
                   </span>
                 )}
                 <span className="text-[11px] font-semibold text-slate-700 mt-1 group-hover:text-indigo-700">Inbox</span>
-              </button>
+              </a>
             </div>
           </div>
 

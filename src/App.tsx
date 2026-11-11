@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { LiveAgentChatModal } from './components/LiveAgentChatModal';
 import { PlanDetailModal } from './components/PlanDetailModal';
+import { ZipChangeModal } from './components/ZipChangeModal';
 
 // 20 Screens
 import { HomeScreen } from './screens/HomeScreen';
@@ -101,6 +102,9 @@ const MainAppContent: React.FC = () => {
 
         {/* Live Licensed Agent Chat Simulation Modal */}
         <LiveAgentChatModal />
+
+        {/* Global ZIP Code Selector Modal */}
+        <ZipChangeModal />
 
         {/* Selected Plan Details Modal */}
         {selectedPlanForDetails && currentScreen !== 'plan-details' && (

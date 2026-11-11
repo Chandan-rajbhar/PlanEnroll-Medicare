@@ -24,6 +24,8 @@ interface AppContextType {
   zipCode: string;
   setZipCode: (zip: string) => void;
   countyState: string;
+  isZipModalOpen: boolean;
+  setIsZipModalOpen: (open: boolean) => void;
   effectiveDate: string;
   setEffectiveDate: (date: string) => void;
   coveragePreference: 'all' | 'medical-only' | 'rx-only' | 'medical-and-rx';
@@ -160,6 +162,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedCategory, setSelectedCategory] = useState<PlanCategory>('all');
   const [zipCode, setZipCodeState] = useState<string>('75080');
   const [countyState, setCountyState] = useState<string>('Collin County, TX');
+  const [isZipModalOpen, setIsZipModalOpen] = useState<boolean>(false);
   const [effectiveDate, setEffectiveDate] = useState<string>('2026-01-01');
   const [coveragePreference, setCoveragePreference] = useState<'all' | 'medical-only' | 'rx-only' | 'medical-and-rx'>('medical-and-rx');
 
@@ -522,6 +525,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         zipCode,
         setZipCode,
         countyState,
+        isZipModalOpen,
+        setIsZipModalOpen,
         effectiveDate,
         setEffectiveDate,
         coveragePreference,

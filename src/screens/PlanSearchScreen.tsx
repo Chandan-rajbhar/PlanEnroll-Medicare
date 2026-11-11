@@ -25,6 +25,7 @@ export const PlanSearchScreen: React.FC = () => {
     plans,
     zipCode, 
     countyState,
+    setIsZipModalOpen,
     filters, 
     updateFilters, 
     resetFilters,
@@ -48,7 +49,7 @@ export const PlanSearchScreen: React.FC = () => {
           <div>
             <h2 className="text-xl font-black text-slate-900 flex items-center gap-1.5 leading-tight">
               <span>{filteredPlans.length} plans available in</span>
-              <span className="text-blue-700 underline decoration-blue-300 decoration-2 underline-offset-4 cursor-pointer" onClick={() => setIsWizardOpen(true)}>
+              <span className="text-blue-700 underline decoration-blue-300 decoration-2 underline-offset-4 cursor-pointer" onClick={() => setIsZipModalOpen(true)}>
                 {zipCode}
               </span>
             </h2>
@@ -56,8 +57,8 @@ export const PlanSearchScreen: React.FC = () => {
           </div>
 
           <button
-            onClick={() => setIsWizardOpen(true)}
-            className="text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2.5 py-1.5 rounded-xl transition-colors"
+            onClick={() => setIsZipModalOpen(true)}
+            className="text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2.5 py-1.5 rounded-xl transition-colors cursor-pointer active:scale-95"
           >
             Edit ZIP
           </button>
