@@ -1,0 +1,95 @@
+import { Pharmacy } from '../types';
+
+export const PHARMACIES_DATA: Pharmacy[] = [
+  {
+    id: 'pharm-1',
+    name: 'CVS Pharmacy #1092',
+    chain: 'CVS Pharmacy',
+    type: 'Retail',
+    address: '605 W Campbell Rd',
+    city: 'Richardson',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '(972) 231-3522',
+    distanceMiles: 0.8,
+    preferredInCarriers: ['CVS Health / SilverScript', 'Aetna', 'Molina Healthcare', 'Blue Cross Blue Shield'],
+    driveThru: true,
+    is24Hours: true
+  },
+  {
+    id: 'pharm-2',
+    name: 'Walgreens Pharmacy #3824',
+    chain: 'Walgreens',
+    type: 'Retail',
+    address: '500 S Plano Rd',
+    city: 'Richardson',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '(972) 235-8622',
+    distanceMiles: 1.4,
+    preferredInCarriers: ['UnitedHealthcare', 'Humana', 'Wellcare by Centene', 'Cigna Healthcare'],
+    driveThru: true,
+    is24Hours: false
+  },
+  {
+    id: 'pharm-3',
+    name: 'Walmart Pharmacy #10-2977',
+    chain: 'Walmart',
+    type: 'Retail',
+    address: '1501 Buckingham Rd',
+    city: 'Richardson',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '(972) 235-9389',
+    distanceMiles: 2.1,
+    preferredInCarriers: ['Humana', 'Wellcare by Centene', 'CVS Health / SilverScript', 'UnitedHealthcare'],
+    driveThru: true,
+    is24Hours: false
+  },
+  {
+    id: 'pharm-4',
+    name: 'Kroger Pharmacy #532',
+    chain: 'Kroger',
+    type: 'Retail',
+    address: '160 N Coit Rd',
+    city: 'Richardson',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '(972) 497-9339',
+    distanceMiles: 2.6,
+    preferredInCarriers: ['Blue Cross Blue Shield', 'Humana', 'Cigna Healthcare'],
+    driveThru: true,
+    is24Hours: false
+  },
+  {
+    id: 'pharm-5',
+    name: 'Costco Pharmacy #668',
+    chain: 'Costco',
+    type: 'Retail',
+    address: '1201 N Central Expy',
+    city: 'Plano',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '(972) 801-5690',
+    distanceMiles: 3.8,
+    preferredInCarriers: ['Blue Cross Blue Shield', 'UnitedHealthcare', 'Aetna', 'Wellcare by Centene'],
+    driveThru: false,
+    is24Hours: false
+  },
+  {
+    id: 'pharm-6',
+    name: 'Carelon / OptumRx Mail Order Service',
+    chain: 'Home Delivery Mail Order',
+    type: 'Mail Order',
+    address: 'Direct to Doorstep Shipping (Nationwide)',
+    city: 'Direct Delivery',
+    state: 'TX',
+    zipCode: '75080',
+    phone: '1-800-788-4863',
+    distanceMiles: 0,
+    preferredInCarriers: ['UnitedHealthcare', 'Humana', 'Blue Cross Blue Shield', 'CVS Health / SilverScript', 'Molina Healthcare', 'Cigna Healthcare'],
+    driveThru: false,
+    is24Hours: true
+  }
+];
+
