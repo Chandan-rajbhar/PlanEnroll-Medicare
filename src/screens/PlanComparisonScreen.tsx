@@ -358,7 +358,7 @@ export const PlanComparisonScreen: React.FC = () => {
                                   </span>
                                   <span className="text-[9px] text-slate-400 font-normal">/mo</span>
                                 </div>
-                                {isLowestPremium && plan.monthlyPremium === 0 && (
+                                {isLowestPremium && (
                                   <span className="inline-block mt-0.5 text-[8px] font-black text-emerald-700 bg-emerald-50 border border-emerald-200 px-1 rounded">
                                     Lowest Premium
                                   </span>

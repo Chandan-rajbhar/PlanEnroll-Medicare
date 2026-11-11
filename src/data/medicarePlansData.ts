@@ -73,7 +73,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     subType: 'Value HMO Plan',
     zipCodes: ['75080', '75081', '75082', '75001', '75201', '90001', '10001'],
     state: 'TX',
-    monthlyPremium: 0.00,
+    monthlyPremium: 28.00,
     medicalDeductible: 0,
     drugDeductible: 0,
     maxOutOfPocket: 3900,
@@ -82,7 +82,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     prescriptionDrugCoverage: true,
     extraHelpAvailable: true,
     summaryHighlights: [
-      '$0 Monthly Premium',
+      '$28.00 Monthly Premium',
       '$0 Copay for Primary Care Visits',
       'Low $3,900 Maximum Out-of-Pocket',
       'Top-rated Blue Cross Provider Network'
@@ -193,7 +193,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     subType: 'Comprehensive HMO',
     zipCodes: ['75080', '75081', '75082', '75001', '75201', '90001', '33101'],
     state: 'TX',
-    monthlyPremium: 0.00,
+    monthlyPremium: 24.00,
     medicalDeductible: 0,
     drugDeductible: 0,
     maxOutOfPocket: 3400,
@@ -203,7 +203,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     extraHelpAvailable: true,
     summaryHighlights: [
       'CMS 5-Star Highest Quality Rating',
-      '$0 Monthly Plan Premium',
+      '$24.00 Monthly Plan Premium',
       'Industry-leading $3,400 Out-of-Pocket Cap',
       'Healthy Options Allowance for Groceries & Utilities'
     ],
@@ -417,7 +417,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     subType: 'Budget Part D Standalone',
     zipCodes: ['75080', '75081', '75082', '75001', '75201', '90001', '33101', '10001'],
     state: 'TX',
-    monthlyPremium: 0.50,
+    monthlyPremium: 14.80,
     medicalDeductible: 0,
     drugDeductible: 545,
     maxOutOfPocket: 2000,
@@ -426,7 +426,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     prescriptionDrugCoverage: true,
     extraHelpAvailable: true,
     summaryHighlights: [
-      'Ultra-low monthly premium ($0.50/mo)',
+      'Affordable monthly premium ($14.80/mo)',
       '$0 Copay for Tier 1 generics at preferred pharmacies',
       '$2,000 maximum out-of-pocket cap protection',
       'Preferred pharmacy savings at Walgreens & grocery chains'
@@ -477,7 +477,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     subType: 'Dual-Eligible (Medicare + Medicaid)',
     zipCodes: ['75080', '75081', '75082', '75001', '75201', '90001', '33101', '10001', '60601'],
     state: 'TX',
-    monthlyPremium: 0.00,
+    monthlyPremium: 18.50,
     medicalDeductible: 0,
     drugDeductible: 0,
     maxOutOfPocket: 0, // With full Medicaid cost-sharing assistance
@@ -486,7 +486,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     prescriptionDrugCoverage: true,
     extraHelpAvailable: true,
     summaryHighlights: [
-      '$0 Plan Premium for Dual-Eligibles',
+      '$18.50 Plan Premium for Dual-Eligibles',
       '$0 Copay for ALL Covered Prescriptions',
       '$185 Monthly Food, OTC, and Utility Assistance Credit',
       'Unlimited transportation rides to medical & social service visits'
@@ -535,7 +535,7 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     subType: 'Chronic Condition Special Needs (C-SNP)',
     zipCodes: ['75080', '75081', '75082', '75001', '75201', '90001', '33101'],
     state: 'TX',
-    monthlyPremium: 0.00,
+    monthlyPremium: 21.00,
     medicalDeductible: 0,
     drugDeductible: 0,
     maxOutOfPocket: 2900,

@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import { CategoryTabs } from '../components/CategoryTabs';
 import { PlanCard } from '../components/PlanCard';
 import { PlanDiscoveryWizard } from '../components/PlanDiscoveryWizard';
+import { Select } from '../components/ui/Select';
 import { 
   Filter, 
   ArrowUpDown, 
@@ -130,21 +131,23 @@ export const PlanSearchScreen: React.FC = () => {
           <span>Filters</span>
         </button>
 
-        {/* Sort Select */}
-        <div className="relative">
-          <select
+        {/* Sort Select (Shadcn UI) */}
+        <div className="w-[165px]">
+          <Select
             value={filters.sortBy}
-            onChange={(e) => updateFilters({ sortBy: e.target.value as any })}
-            className="appearance-none pl-2.5 pr-7 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer"
-          >
-            <option value="recommended">Recommended</option>
-            <option value="premium-asc">Premium: Low to High</option>
-            <option value="premium-desc">Premium: High to Low</option>
-            <option value="deductible-asc">Lowest Deductible</option>
-            <option value="star-desc">Highest Star Rating</option>
-            <option value="moop-asc">Lowest Out-of-Pocket</option>
-          </select>
-          <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+            onChange={(val) => updateFilters({ sortBy: val as any })}
+            triggerClassName="py-2 px-2.5 rounded-xl border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-700 shadow-xs"
+            contentClassName="w-[185px] right-0 left-auto"
+            prefixIcon={<ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />}
+            options={[
+              { value: 'recommended', label: 'Recommended' },
+              { value: 'premium-asc', label: 'Premium: Low to High' },
+              { value: 'premium-desc', label: 'Premium: High to Low' },
+              { value: 'deductible-asc', label: 'Lowest Deductible' },
+              { value: 'star-desc', label: 'Highest Star Rating' },
+              { value: 'moop-asc', label: 'Lowest Out-of-Pocket' },
+            ]}
+          />
         </div>
       </div>
 
@@ -243,21 +246,19 @@ export const PlanSearchScreen: React.FC = () => {
 
             {/* Filter Content */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-              {/* Carrier Filter */}
+              {/* Carrier Filter (Shadcn UI) */}
               <div>
                 <label className="block font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-1.5">
                   Insurance Company / Carrier
                 </label>
-                <select
+                <Select
                   value={filters.carrier}
-                  onChange={(e) => updateFilters({ carrier: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800"
-                >
-                  <option value="all">All Carriers</option>
-                  {carriers.filter(c => c !== 'all').map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
+                  onChange={(val) => updateFilters({ carrier: val })}
+                  options={[
+                    { value: 'all', label: 'All Carriers' },
+                    ...carriers.filter(c => c !== 'all').map(c => ({ value: c, label: c }))
+                  ]}
+                />
               </div>
 
               {/* Network Type Filter */}

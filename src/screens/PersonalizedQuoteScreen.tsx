@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { Select } from '../components/ui/Select';
 import { PlanDiscoveryWizard } from '../components/PlanDiscoveryWizard';
 import { 
   Sparkles, 
@@ -164,16 +165,16 @@ export const PersonalizedQuoteScreen: React.FC = () => {
           <form onSubmit={handleSubmitQuote} className="space-y-3 text-xs">
             <div>
               <label className="block font-bold text-slate-700 mb-1">Preferred Contact Window</label>
-              <select
+              <Select
                 value={preferredContact}
-                onChange={(e) => setPreferredContact(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-slate-800"
-              >
-                <option value="Morning (9am - 12pm)">Morning (9am - 12pm)</option>
-                <option value="Afternoon (12pm - 4pm)">Afternoon (12pm - 4pm)</option>
-                <option value="Evening (4pm - 7pm)">Evening (4pm - 7pm)</option>
-                <option value="Saturday Morning">Saturday Morning</option>
-              </select>
+                onChange={(val) => setPreferredContact(val)}
+                options={[
+                  { value: 'Morning (9am - 12pm)', label: 'Morning (9am - 12pm)' },
+                  { value: 'Afternoon (12pm - 4pm)', label: 'Afternoon (12pm - 4pm)' },
+                  { value: 'Evening (4pm - 7pm)', label: 'Evening (4pm - 7pm)' },
+                  { value: 'Saturday Morning', label: 'Saturday Morning' },
+                ]}
+              />
             </div>
 
             <div>

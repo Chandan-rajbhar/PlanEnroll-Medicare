@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PRESCRIPTIONS_DATA } from '../data/prescriptionsData';
+import { Select } from '../components/ui/Select';
 import { 
   Pill, 
   Search, 
@@ -212,24 +213,22 @@ export const MyPrescriptionsScreen: React.FC = () => {
             <form onSubmit={handleAddNew} className="space-y-3 text-xs">
               <div>
                 <label className="block font-bold text-slate-700 mb-1">Select Medication</label>
-                <select
+                <Select
                   value={selectedDrug.id}
-                  onChange={(e) => {
-                    const found = PRESCRIPTIONS_DATA.find(d => d.id === e.target.value);
+                  onChange={(val) => {
+                    const found = PRESCRIPTIONS_DATA.find(d => d.id === val);
                     if (found) {
                       setSelectedDrug(found);
                       setDosageInput(found.dosage);
                       setFreqInput(found.frequency);
                     }
                   }}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs"
-                >
-                  {PRESCRIPTIONS_DATA.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.name} (Tier {d.tier})
-                    </option>
-                  ))}
-                </select>
+                  options={PRESCRIPTIONS_DATA.map((d) => ({
+                    value: d.id,
+                    label: `${d.name} (Tier ${d.tier})`,
+                    description: `${d.dosage} • ${d.form}`
+                  }))}
+                />
               </div>
 
               <div>
