@@ -51,7 +51,7 @@ export const HomeScreen: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={`Search plans, drugs, or doctors in ${zipCode}...`}
-            className="w-full pl-10 pr-24 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-xs text-slate-800 placeholder-slate-400"
+            className="w-full pl-10 pr-24 py-3 rounded-2xl bg-white border border-slate-200/90 shadow-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-400/20 text-xs text-slate-800 placeholder-slate-400 transition-all"
           />
           <button
             type="submit"

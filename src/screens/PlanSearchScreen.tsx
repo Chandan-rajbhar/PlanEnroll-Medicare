@@ -42,6 +42,16 @@ export const PlanSearchScreen: React.FC = () => {
   const carriers = ['all', 'Molina Healthcare', 'Blue Cross Blue Shield', 'UnitedHealthcare', 'Humana', 'Aetna', 'Cigna Healthcare', 'Wellcare by Centene', 'Mutual of Omaha'];
   const networkTypes = ['all', 'HMO', 'PPO', 'HMO-POS', 'Medigap', 'PDP'];
 
+  const hasActiveFilters = 
+    filters.carrier !== 'all' || 
+    filters.networkType !== 'all' || 
+    filters.minStarRating > 0 || 
+    filters.prescriptionCoverageOnly || 
+    filters.maxPremium < 200 ||
+    filters.hasDental ||
+    filters.hasVision ||
+    filters.hasHearing;
+
   return (
     <div className="pb-10 space-y-3">
       {/* Top ZIP & Results Summary Bar - Compact typography */}
@@ -103,20 +113,21 @@ export const PlanSearchScreen: React.FC = () => {
       {/* Category Tabs */}
       <CategoryTabs />
 
-      {/* Search Input, Filter Button & Sort Selector Row */}
+      {/* Search Input, Filter Button & Sort Selector Row (Expanded Search Bar, Icon-only Filter & Sort) */}
       <div className="px-4 flex items-center gap-2">
-        {/* Search by plan name */}
+        {/* Search by plan name - Expanded width */}
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={filters.searchQuery}
             onChange={(e) => updateFilters({ searchQuery: e.target.value })}
             placeholder="Search plan or carrier..."
-            className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full h-9 pl-8.5 pr-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-400/20 shadow-2xs transition-all"
           />
           {filters.searchQuery && (
             <button
+              type="button"
               onClick={() => updateFilters({ searchQuery: '' })}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
             >
@@ -125,23 +136,31 @@ export const PlanSearchScreen: React.FC = () => {
           )}
         </div>
 
-        {/* Filter Drawer Trigger */}
+        {/* Filter Drawer Trigger - Icon only */}
         <button
+          type="button"
           onClick={() => setIsFilterModalOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 shadow-xs"
+          title="Filter plans"
+          aria-label="Filter plans"
+          className="relative w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-blue-700 shadow-2xs flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
         >
-          <Filter className="w-3.5 h-3.5 text-blue-700" />
-          <span>Filters</span>
+          <Filter className="w-4 h-4" />
+          {hasActiveFilters && (
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-600 ring-2 ring-white" />
+          )}
         </button>
 
-        {/* Sort Select (Shadcn UI) */}
-        <div className="w-[165px]">
+        {/* Sort Select commented out as requested */}
+        {/*
+        <div className="shrink-0">
           <Select
             value={filters.sortBy}
             onChange={(val) => updateFilters({ sortBy: val as any })}
-            triggerClassName="py-2 px-2.5 rounded-xl border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-700 shadow-xs"
-            contentClassName="w-[185px] right-0 left-auto"
-            prefixIcon={<ArrowUpDown className="w-3.5 h-3.5 text-slate-400" />}
+            iconOnly={true}
+            triggerClassName="w-9 h-9 border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-2xs"
+            contentClassName="w-[195px] right-0 left-auto"
+            prefixIcon={<ArrowUpDown className="w-4 h-4 text-slate-700" />}
+            ariaLabel="Sort plans"
             options={[
               { value: 'recommended', label: 'Recommended' },
               { value: 'premium-asc', label: 'Premium: Low to High' },
@@ -152,6 +171,7 @@ export const PlanSearchScreen: React.FC = () => {
             ]}
           />
         </div>
+        */}
       </div>
 
       {/* Active Filter Tags */}
@@ -249,6 +269,25 @@ export const PlanSearchScreen: React.FC = () => {
 
             {/* Filter Content */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+              {/* Sort By Filter (Shadcn UI) */}
+              <div>
+                <label className="block font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-1.5">
+                  Sort Plans By
+                </label>
+                <Select
+                  value={filters.sortBy}
+                  onChange={(val) => updateFilters({ sortBy: val as any })}
+                  options={[
+                    { value: 'recommended', label: 'Recommended' },
+                    { value: 'premium-asc', label: 'Premium: Low to High' },
+                    { value: 'premium-desc', label: 'Premium: High to Low' },
+                    { value: 'deductible-asc', label: 'Lowest Deductible' },
+                    { value: 'star-desc', label: 'Highest Star Rating' },
+                    { value: 'moop-asc', label: 'Lowest Out-of-Pocket' },
+                  ]}
+                />
+              </div>
+
               {/* Carrier Filter (Shadcn UI) */}
               <div>
                 <label className="block font-bold text-slate-800 uppercase tracking-wider text-[11px] mb-1.5">

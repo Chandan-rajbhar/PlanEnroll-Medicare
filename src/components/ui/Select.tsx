@@ -20,6 +20,7 @@ export interface SelectProps {
   disabled?: boolean;
   prefixIcon?: React.ReactNode;
   ariaLabel?: string;
+  iconOnly?: boolean;
 }
 
 /**
@@ -42,7 +43,8 @@ export const Select: React.FC<SelectProps> = ({
   contentClassName = '',
   disabled = false,
   prefixIcon,
-  ariaLabel
+  ariaLabel,
+  iconOnly = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -87,28 +89,41 @@ export const Select: React.FC<SelectProps> = ({
         onClick={() => !disabled && setIsOpen(!isOpen)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        aria-label={ariaLabel || placeholder}
-        className={`w-full flex items-center justify-between rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-800 shadow-2xs hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none ${
+        aria-label={ariaLabel || (selectedOption ? selectedOption.label : placeholder)}
+        title={ariaLabel || (selectedOption ? `Sort: ${selectedOption.label}` : placeholder)}
+        className={`flex items-center rounded-xl border border-slate-300 bg-white text-xs text-slate-800 shadow-2xs hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none ${
+          iconOnly
+            ? 'w-9 h-9 justify-center p-0'
+            : 'w-full justify-between px-3.5 py-2.5'
+        } ${
           isOpen ? 'ring-2 ring-blue-600/30 border-blue-600' : ''
         } ${triggerClassName}`}
       >
-        <div className="flex items-center gap-2 truncate pr-2">
-          {prefixIcon && <span className="shrink-0 text-slate-500">{prefixIcon}</span>}
-          {selectedOption ? (
-            <span className="truncate font-semibold text-slate-900 flex items-center gap-1.5">
-              {selectedOption.icon && <span className="shrink-0">{selectedOption.icon}</span>}
-              <span>{selectedOption.label}</span>
-            </span>
-          ) : (
-            <span className="text-slate-400 font-normal truncate">{placeholder}</span>
-          )}
-        </div>
+        {iconOnly ? (
+          <span className="shrink-0 flex items-center justify-center text-slate-600">
+            {prefixIcon || <ChevronDown className="w-4 h-4" />}
+          </span>
+        ) : (
+          <>
+            <div className="flex items-center gap-2 truncate pr-2">
+              {prefixIcon && <span className="shrink-0 text-slate-500">{prefixIcon}</span>}
+              {selectedOption ? (
+                <span className="truncate font-semibold text-slate-900 flex items-center gap-1.5">
+                  {selectedOption.icon && <span className="shrink-0">{selectedOption.icon}</span>}
+                  <span>{selectedOption.label}</span>
+                </span>
+              ) : (
+                <span className="text-slate-400 font-normal truncate">{placeholder}</span>
+              )}
+            </div>
 
-        <ChevronDown
-          className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
-            isOpen ? 'rotate-180 text-blue-600' : ''
-          }`}
-        />
+            <ChevronDown
+              className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
+                isOpen ? 'rotate-180 text-blue-600' : ''
+              }`}
+            />
+          </>
+        )}
       </button>
 
       {/* Shadcn Select Content / Dropdown Popover */}
