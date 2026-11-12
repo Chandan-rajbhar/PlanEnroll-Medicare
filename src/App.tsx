@@ -97,7 +97,7 @@ const MainAppContent: React.FC = () => {
           {renderScreen()}
         </main>
 
-        {/* Mobile Bottom Navigation - Firmly inside the phone container */}
+        {/* Mobile Bottom Navigation - Stable Docked Pill Bar */}
         <BottomNav />
 
         {/* Live Licensed Agent Chat Simulation Modal */}
