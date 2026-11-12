@@ -101,7 +101,7 @@ export const PlanSearchScreen: React.FC = () => {
 
             <button
               onClick={() => setIsWizardOpen(true)}
-              className="shrink-0 mt-0.5 py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 text-[11px] font-black transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+              className="shrink-0 mt-0.5 py-1.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-[11px] font-bold transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
             >
               <Sparkles className="w-3 h-3" />
               <span>{userDoctorIds.length > 0 ? 'Update Preferences' : 'Preferences'}</span>
@@ -366,7 +366,7 @@ export const PlanSearchScreen: React.FC = () => {
                       onClick={() => updateFilters({ minStarRating: stars })}
                       className={`py-2 rounded-xl border text-center font-bold ${
                         filters.minStarRating === stars
-                          ? 'bg-amber-500 text-slate-950 border-amber-500'
+                          ? 'bg-blue-600 text-white border-blue-600'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >

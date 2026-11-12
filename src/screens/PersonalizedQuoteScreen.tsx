@@ -189,7 +189,7 @@ export const PersonalizedQuoteScreen: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
+              className="w-full py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-all shadow-md active:scale-95 flex items-center justify-center gap-1.5"
             >
               <Sparkles className="w-4 h-4" />
               <span>Submit for Official Plan Quote</span>

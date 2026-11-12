@@ -220,7 +220,7 @@ export const PlanComparisonScreen: React.FC = () => {
                   </button>
                   <button
                     onClick={() => handleEnroll(plan)}
-                    className="flex-1 py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 text-xs font-black text-center shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                    className="flex-1 py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold text-center shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                   >
                     <span>Get Official Quote</span>
                     <ArrowRight className="w-3.5 h-3.5" />

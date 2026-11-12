@@ -351,7 +351,7 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
           {/* Primary CTA: Get Quote & Enroll - Compact Size */}
           <button
             onClick={handleEnrollQuote}
-            className="h-8 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-[11px] transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+            className="h-8 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-[11px] transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
           >
             <span>Get Quote & Enroll</span>
           </button>
