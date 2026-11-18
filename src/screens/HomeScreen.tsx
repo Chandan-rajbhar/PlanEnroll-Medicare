@@ -4,15 +4,14 @@ import { AgentBanner } from '../components/AgentBanner';
 import { CategoryTabs } from '../components/CategoryTabs';
 import { QuickActionCards } from '../components/QuickActionCards';
 import { PlanCard } from '../components/PlanCard';
-import { 
-  Search, 
-  ArrowRight, 
-  ShieldCheck, 
-  Pill, 
-  Clock, 
-  AlertTriangle, 
-  Sparkles, 
-  BookOpen, 
+import {
+  Search,
+  ArrowRight,
+  ShieldCheck,
+  Pill,
+  Clock,
+  Sparkles,
+  BookOpen,
   Phone,
   ChevronRight,
   CheckCircle2,
@@ -20,10 +19,10 @@ import {
 } from 'lucide-react';
 
 export const HomeScreen: React.FC = () => {
-  const { 
-    filteredPlans, 
-    navigateTo, 
-    zipCode, 
+  const {
+    filteredPlans,
+    navigateTo,
+    zipCode,
     countyState,
     setIsZipModalOpen,
     userPrescriptions,
@@ -132,7 +131,7 @@ export const HomeScreen: React.FC = () => {
           <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
             Explore by Category
           </h3>
-          <span 
+          <span
             onClick={() => navigateTo('products')}
             className="text-[11px] font-semibold text-blue-700 cursor-pointer hover:underline"
           >
@@ -151,7 +150,7 @@ export const HomeScreen: React.FC = () => {
           <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
             Your Medications & Refills
           </h3>
-          <button 
+          <button
             onClick={() => navigateTo('my-prescriptions')}
             className="text-[11px] font-bold text-blue-700 hover:underline flex items-center gap-0.5"
           >
@@ -161,69 +160,52 @@ export const HomeScreen: React.FC = () => {
         </div>
 
         {/* Refill card (Lantus 15ml of 100 units from screenshot) */}
-        <div 
+        <div
           onClick={() => navigateTo('my-prescriptions')}
-          className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer space-y-2.5"
+          className="bg-white rounded-2xl p-3.5 border border-slate-200 shadow-2xs hover:shadow-xs transition-all cursor-pointer space-y-3 group"
         >
+          {/* Top Status Header */}
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-              <Clock className="w-3 h-3" />
+            <span className="text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200/70 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+              <Clock className="w-3 h-3 text-amber-600" />
               <span>Ready to Refill</span>
             </span>
-            <span className="text-xs text-slate-400 font-medium">3 days remaining</span>
+            <span className="text-[11px] text-slate-400 font-medium">3 days remaining</span>
           </div>
 
-          <div className="flex items-start gap-3">
+          {/* Medication Main Row */}
+          <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0 border border-blue-100">
               <Pill className="w-5 h-5" />
             </div>
-            <div className="flex-1">
-              <h4 className="text-xs font-bold text-slate-900 leading-snug">
+            <div className="flex-1 min-w-0">
+              <h4 className="text-[13px] font-bold text-slate-900 group-hover:text-blue-700 transition-colors truncate">
                 Lantus 15ml of 100 units
               </h4>
-              <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-0.5">
-                <span>Refills Left: <strong>3</strong></span>
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-500 mt-0.5">
+                <span>Refills Left: 3</span>
                 <span>•</span>
                 <span>Dr. Lubin</span>
               </div>
             </div>
+            <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 group-hover:translate-x-0.5 transition-all shrink-0" />
           </div>
 
-          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-600">
-            <div className="flex items-center gap-1 text-slate-700 font-medium">
-              <span className="text-rose-500 font-bold">❤️</span>
+          {/* Pharmacy & Phone Row */}
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+            <div className="flex items-center gap-1.5 text-slate-700 font-medium">
+
               <span>CVS Pharmacy</span>
             </div>
-            <a 
-              href="tel:9717529054" 
-              onClick={(e) => e.stopPropagation()} 
+            <a
+              href="tel:9717529054"
+              onClick={(e) => e.stopPropagation()}
               className="text-blue-700 font-semibold hover:underline flex items-center gap-1"
             >
               <Phone className="w-3 h-3" />
               <span>971-752-9054</span>
             </a>
           </div>
-        </div>
-
-        {/* Prior Authorization notice card (from Rightway screenshot) */}
-        <div 
-          onClick={() => navigateTo('notifications')}
-          className="bg-amber-50/70 rounded-2xl p-3 border border-amber-200/90 flex items-center justify-between cursor-pointer hover:bg-amber-50 transition-colors"
-        >
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center shrink-0">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="text-[11px] font-bold text-amber-900 block leading-tight">
-                Prior Authorization Denied Notice
-              </span>
-              <span className="text-[10px] text-amber-800">
-                Appeal options & alternate generic available
-              </span>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-amber-700" />
         </div>
       </div>
 
@@ -238,7 +220,7 @@ export const HomeScreen: React.FC = () => {
               {filteredPlans.length} verified plans matching your area
             </span>
           </div>
-          <button 
+          <button
             onClick={() => navigateTo('plan-search')}
             className="text-[11px] font-bold text-blue-700 hover:underline"
           >
@@ -255,7 +237,7 @@ export const HomeScreen: React.FC = () => {
 
       {/* Learning Center Promo Card */}
       <div className="px-4 pt-2">
-        <div 
+        <div
           onClick={() => navigateTo('learning-center')}
           className="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-3xl p-4 text-white shadow-md flex items-center justify-between cursor-pointer group"
         >
