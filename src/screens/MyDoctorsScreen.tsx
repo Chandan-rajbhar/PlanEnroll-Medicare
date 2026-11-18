@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { DOCTORS_DATA } from '../data/doctorsData';
-import { 
-  Stethoscope, 
-  Search, 
-  Plus, 
-  Check, 
-  Trash2, 
-  Star, 
-  MapPin, 
-  Phone, 
-  Building2, 
-  ShieldCheck, 
+import {
+  Stethoscope,
+  Search,
+  Plus,
+  Check,
+  Trash2,
+  Star,
+  MapPin,
+  Phone,
+  Building2,
+  ShieldCheck,
   ChevronRight,
   UserCheck
 } from 'lucide-react';
@@ -27,7 +27,7 @@ export const MyDoctorsScreen: React.FC = () => {
     const matchesSearch = doc.name.toLowerCase().includes(search.toLowerCase()) ||
       doc.specialty.toLowerCase().includes(search.toLowerCase()) ||
       doc.hospitalAffiliation.toLowerCase().includes(search.toLowerCase());
-    
+
     const matchesSpec = specialtyFilter === 'All' || doc.specialty.toLowerCase().includes(specialtyFilter.toLowerCase());
     return matchesSearch && matchesSpec;
   });
@@ -39,16 +39,13 @@ export const MyDoctorsScreen: React.FC = () => {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-black text-slate-900 leading-tight">
+          <h2 className="text-md font-black text-slate-900 leading-tight">
             My Doctors & Providers
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Check network participation across 2026 Medicare plans
           </p>
         </div>
-        <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">
-          {userDoctorIds.length} Saved
-        </span>
       </div>
 
       {/* Saved Doctors Section */}
@@ -70,7 +67,10 @@ export const MyDoctorsScreen: React.FC = () => {
                     <img
                       src={doc.imageUrl}
                       alt={doc.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-blue-100 shrink-0"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=120&auto=format&fit=crop&q=80';
+                      }}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-blue-100 shrink-0 bg-slate-100"
                     />
                     <div>
                       <h4 className="font-bold text-sm text-slate-900 leading-tight">{doc.name}</h4>
@@ -155,11 +155,10 @@ export const MyDoctorsScreen: React.FC = () => {
             <button
               key={spec}
               onClick={() => setSpecialtyFilter(spec)}
-              className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${
-                specialtyFilter === spec
-                  ? 'bg-blue-700 text-white'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-              }`}
+              className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${specialtyFilter === spec
+                ? 'bg-blue-700 text-white'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                }`}
             >
               {spec}
             </button>
@@ -179,7 +178,10 @@ export const MyDoctorsScreen: React.FC = () => {
                   <img
                     src={doc.imageUrl}
                     alt={doc.name}
-                    className="w-11 h-11 rounded-full object-cover shrink-0"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=120&auto=format&fit=crop&q=80';
+                    }}
+                    className="w-11 h-11 rounded-full object-cover shrink-0 bg-slate-100"
                   />
                   <div>
                     <h4 className="font-bold text-xs text-slate-900 leading-snug">{doc.name}</h4>
@@ -190,11 +192,10 @@ export const MyDoctorsScreen: React.FC = () => {
 
                 <button
                   onClick={() => isSaved ? removeDoctor(doc.id) : addDoctor(doc.id)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all ${
-                    isSaved
-                      ? 'bg-blue-100 text-blue-800 hover:bg-rose-100 hover:text-rose-700'
-                      : 'bg-blue-700 text-white hover:bg-blue-800 shadow-sm'
-                  }`}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all ${isSaved
+                    ? 'bg-blue-100 text-blue-800 hover:bg-rose-100 hover:text-rose-700'
+                    : 'bg-blue-700 text-white hover:bg-blue-800 shadow-sm'
+                    }`}
                 >
                   {isSaved ? (
                     <>

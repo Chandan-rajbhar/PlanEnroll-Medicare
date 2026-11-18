@@ -1,22 +1,22 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { PlanCard } from '../components/PlanCard';
-import { 
-  Bookmark, 
-  Layers, 
-  Clock, 
+import {
+  Bookmark,
+  Layers,
+  Clock,
   ArrowRight,
   FileText
 } from 'lucide-react';
 
 export const SavedPlansScreen: React.FC = () => {
-  const { 
-    savedPlanIds, 
-    plans, 
-    quoteRequests, 
-    navigateTo, 
-    clearComparison, 
-    toggleComparePlan 
+  const {
+    savedPlanIds,
+    plans,
+    quoteRequests,
+    navigateTo,
+    clearComparison,
+    toggleComparePlan
   } = useApp();
 
   const savedPlans = plans.filter(p => savedPlanIds.includes(p.id));
@@ -41,10 +41,7 @@ export const SavedPlansScreen: React.FC = () => {
         </div>
 
         {/* Reduced & Compact Bookmarked Badge */}
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/70 shrink-0 whitespace-nowrap flex items-center gap-1 select-none">
-          <Bookmark className="w-2.5 h-2.5 fill-amber-600 text-amber-600" />
-          <span>{savedPlans.length} Bookmarked</span>
-        </span>
+
       </div>
 
       {/* Submitted Quotes Section */}

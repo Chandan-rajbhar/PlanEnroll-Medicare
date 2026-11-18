@@ -33,7 +33,7 @@ export const DOCTORS_DATA: Doctor[] = [
     phone: '(214) 820-0600',
     acceptingNewPatients: true,
     inNetworkCarriers: ['Blue Cross Blue Shield', 'UnitedHealthcare', 'Humana', 'Cigna Healthcare'],
-    imageUrl: 'https://images.unsplash.com/photo-1594824813583-a75d275ce30c?w=120&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=120&auto=format&fit=crop&q=80',
     gender: 'Female',
     languages: ['English']
   },
@@ -105,7 +105,7 @@ export const DOCTORS_DATA: Doctor[] = [
     phone: '(972) 231-5744',
     acceptingNewPatients: true,
     inNetworkCarriers: ['Blue Cross Blue Shield', 'UnitedHealthcare', 'Humana', 'Molina Healthcare'],
-    imageUrl: 'https://images.unsplash.com/photo-1594824813603-ee838882894b?w=120&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=120&auto=format&fit=crop&q=80',
     gender: 'Female',
     languages: ['English', 'Hindi', 'Gujarati']
   }

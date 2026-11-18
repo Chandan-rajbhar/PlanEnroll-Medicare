@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PRESCRIPTIONS_DATA } from '../data/prescriptionsData';
 import { Select } from '../components/ui/Select';
-import { 
-  Pill, 
-  Search, 
-  Plus, 
-  Trash2, 
-  AlertCircle, 
-  Check, 
-  Sparkles, 
-  Truck, 
-  DollarSign, 
-  ShieldAlert, 
+import {
+  Pill,
+  Search,
+  Plus,
+  Trash2,
+  AlertCircle,
+  Check,
+  Sparkles,
+  Truck,
+  DollarSign,
+  ShieldAlert,
   HelpCircle,
   ArrowRight
 } from 'lucide-react';
 
 export const MyPrescriptionsScreen: React.FC = () => {
-  const { 
-    userPrescriptions, 
-    addPrescription, 
-    removePrescription, 
-    navigateTo 
+  const {
+    userPrescriptions,
+    addPrescription,
+    removePrescription,
+    navigateTo
   } = useApp();
 
   const [search, setSearch] = useState('');
@@ -76,7 +76,7 @@ export const MyPrescriptionsScreen: React.FC = () => {
           className="h-8 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer"
         >
           <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-          <span>Add Med</span>
+          {/* <span>Add Med</span> */}
         </button>
       </div>
 

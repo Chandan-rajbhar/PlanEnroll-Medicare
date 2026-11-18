@@ -1,23 +1,23 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { 
-  ArrowLeftRight, 
-  Trash2, 
-  Plus, 
-  X, 
-  Star, 
+import {
+  ArrowLeftRight,
+  Trash2,
+  Plus,
+  X,
+  Star,
   ArrowRight,
   ShieldCheck,
   Check
 } from 'lucide-react';
 
 export const PlanComparisonScreen: React.FC = () => {
-  const { 
-    comparePlanIds, 
-    toggleComparePlan, 
-    clearComparison, 
-    plans, 
-    navigateTo, 
+  const {
+    comparePlanIds,
+    toggleComparePlan,
+    clearComparison,
+    plans,
+    navigateTo,
     openPlanDetails,
     submitQuoteRequest,
     userProfile
@@ -41,8 +41,8 @@ export const PlanComparisonScreen: React.FC = () => {
     navigateTo('saved-plans');
   };
 
-  const minPremium = comparedPlans.length > 0 
-    ? Math.min(...comparedPlans.map(p => p.monthlyPremium)) 
+  const minPremium = comparedPlans.length > 0
+    ? Math.min(...comparedPlans.map(p => p.monthlyPremium))
     : 0;
 
   return (
@@ -50,12 +50,7 @@ export const PlanComparisonScreen: React.FC = () => {
       {/* Top Header Row */}
       <div className="px-4 pt-3 flex items-start justify-between gap-2">
         <div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-full">
-              Side-by-Side Comparison
-            </span>
-          </div>
-          <h2 className="text-xl font-black text-slate-900 leading-tight mt-1">
+          <h2 className="text-md font-black text-slate-900 leading-tight">
             Compare Medicare Plans
           </h2>
           <p className="text-[11px] text-slate-500 mt-0.5">
@@ -101,7 +96,7 @@ export const PlanComparisonScreen: React.FC = () => {
             className="py-2.5 px-4 rounded-xl bg-blue-700 text-white text-xs font-bold hover:bg-blue-800 transition-colors shadow-md inline-flex items-center gap-1.5 active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>Browse Plans to Compare</span>
+            <span>Browse Plans</span>
           </button>
         </div>
       ) : (
@@ -111,7 +106,7 @@ export const PlanComparisonScreen: React.FC = () => {
             const isLowestPremium = plan.monthlyPremium === minPremium && comparedPlans.length > 1;
 
             return (
-              <div 
+              <div
                 key={plan.id}
                 className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-sm space-y-3 relative hover:border-blue-200 transition-all"
               >
@@ -232,7 +227,7 @@ export const PlanComparisonScreen: React.FC = () => {
 
           {/* Add Another Plan Slot */}
           {comparedPlans.length < 4 && (
-            <div 
+            <div
               onClick={() => navigateTo('plan-search')}
               className="border-2 border-dashed border-blue-200 hover:border-blue-300 bg-blue-50/30 hover:bg-blue-50/60 rounded-3xl p-4 text-center cursor-pointer transition-all active:scale-[0.99] flex flex-col items-center justify-center gap-1.5"
             >
