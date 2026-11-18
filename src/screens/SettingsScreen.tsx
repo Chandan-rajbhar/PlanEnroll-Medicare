@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { showToast } from '../utils/toast';
 import { 
   RotateCcw, 
   Check, 
@@ -22,7 +23,26 @@ export const SettingsScreen: React.FC = () => {
     resetFilters();
     clearComparison();
     setResetSuccess(true);
+    showToast.success('Settings Reset', 'Preferences and comparison filters restored to defaults.');
     setTimeout(() => setResetSuccess(false), 2500);
+  };
+
+  const toggleAccessibility = () => {
+    const nextVal = !largeText;
+    setLargeText(nextVal);
+    showToast.info('Accessibility Updated', nextVal ? 'High contrast & large text enabled.' : 'Standard text size restored.');
+  };
+
+  const toggleRefillReminders = () => {
+    const nextVal = !notificationsEnabled;
+    setNotificationsEnabled(nextVal);
+    showToast.info('Alerts Updated', nextVal ? 'Refill reminders enabled.' : 'Refill reminders silenced.');
+  };
+
+  const toggleAEPAlerts = () => {
+    const nextVal = !emailAlerts;
+    setEmailAlerts(nextVal);
+    showToast.info('AEP Updates', nextVal ? '2026 formulary email notices enabled.' : 'Formulary notices disabled.');
   };
 
   return (
@@ -53,7 +73,7 @@ export const SettingsScreen: React.FC = () => {
               <span className="text-[11px] text-slate-500">Optimized font size for senior readability</span>
             </div>
             <button
-              onClick={() => setLargeText(!largeText)}
+              onClick={toggleAccessibility}
               className={`w-12 h-6 rounded-full transition-colors relative p-0.5 ${
                 largeText ? 'bg-blue-700' : 'bg-slate-300'
               }`}
@@ -79,7 +99,7 @@ export const SettingsScreen: React.FC = () => {
               <span className="text-[11px] text-slate-500">Get notified when maintenance drugs need refills</span>
             </div>
             <button
-              onClick={() => setNotificationsEnabled(!notificationsEnabled)}
+              onClick={toggleRefillReminders}
               className={`w-12 h-6 rounded-full transition-colors relative p-0.5 ${
                 notificationsEnabled ? 'bg-blue-700' : 'bg-slate-300'
               }`}
@@ -98,7 +118,7 @@ export const SettingsScreen: React.FC = () => {
               <span className="text-[11px] text-slate-500">Notices when 2026 carrier formularies update</span>
             </div>
             <button
-              onClick={() => setEmailAlerts(!emailAlerts)}
+              onClick={toggleAEPAlerts}
               className={`w-12 h-6 rounded-full transition-colors relative p-0.5 ${
                 emailAlerts ? 'bg-blue-700' : 'bg-slate-300'
               }`}

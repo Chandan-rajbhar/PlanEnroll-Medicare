@@ -17,7 +17,8 @@ import {
   Stethoscope,
   Pill,
   Heart,
-  ChevronRight
+  ChevronRight,
+  ChevronDown
 } from 'lucide-react';
 
 export const PlanSearchScreen: React.FC = () => {
@@ -37,10 +38,33 @@ export const PlanSearchScreen: React.FC = () => {
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
 
   // Unique carriers and network types for filter lists
   const carriers = ['all', 'Molina Healthcare', 'Blue Cross Blue Shield', 'UnitedHealthcare', 'Humana', 'Aetna', 'Cigna Healthcare', 'Wellcare by Centene', 'Mutual of Omaha'];
   const networkTypes = ['all', 'HMO', 'PPO', 'HMO-POS', 'Medigap', 'PDP'];
+
+  const sortLabels: Record<string, string> = {
+    'recommended': 'Featured',
+    'premium-asc': 'Premium: Low to High',
+    'premium-desc': 'Premium: High to Low',
+    'deductible-asc': 'Lowest Deductible',
+    'star-desc': 'Highest Rating',
+    'moop-asc': 'Lowest OOP'
+  };
+
+  const sortShortLabels: Record<string, string> = {
+    'recommended': 'Featured',
+    'premium-asc': 'Price: Low',
+    'premium-desc': 'Price: High',
+    'deductible-asc': 'Deductible',
+    'star-desc': 'Rating',
+    'moop-asc': 'Lowest OOP'
+  };
+
+  const locationLabel = zipCode === '33602' || zipCode.startsWith('33') 
+    ? 'Tampa, FL 33602' 
+    : (zipCode === '75080' ? 'Tampa, FL 33602' : `${countyState.split(',')[0] || 'Service Area'}, ${zipCode}`);
 
   const hasActiveFilters = 
     filters.carrier !== 'all' || 
@@ -54,124 +78,111 @@ export const PlanSearchScreen: React.FC = () => {
 
   return (
     <div className="pb-10 space-y-3">
-      {/* Top ZIP & Results Summary Bar - Compact typography */}
-      <div className="px-4 pt-2.5 pb-0.5">
-        <div className="flex items-center justify-between gap-2">
-          <div>
-            <h2 className="text-xs sm:text-[13px] font-bold text-slate-800 flex items-center gap-1 leading-tight">
-              <span>{filteredPlans.length} plans available in</span>
-              <span className="text-blue-700 underline decoration-blue-300 decoration-1 underline-offset-2 cursor-pointer hover:text-blue-800 transition-colors" onClick={() => setIsZipModalOpen(true)}>
-                {zipCode}
-              </span>
-            </h2>
-            <p className="text-[10px] text-slate-400 mt-0.5 font-medium">{countyState}</p>
-          </div>
-
-          <button
-            onClick={() => setIsZipModalOpen(true)}
-            className="text-[10px] font-semibold text-blue-700 bg-blue-50/80 hover:bg-blue-100 border border-blue-200/70 px-2 py-0.5 rounded-lg transition-colors cursor-pointer active:scale-95 shrink-0"
-          >
-            Edit ZIP
-          </button>
-        </div>
+      {/* Category Tabs at the very top */}
+      <div className="pt-2">
+        <CategoryTabs />
       </div>
 
-      {/* Preferences Banner - Compact, modern, mobile-optimized */}
-      <div className="px-4">
-        <div className="bg-[#EBF6FD] rounded-2xl p-3 border border-sky-200/90 shadow-xs">
-          <div className="flex items-start justify-between gap-2.5">
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 mb-0.5">
-                <span className="text-xs font-bold text-sky-950 truncate">
-                  Personalized Cost Estimator
-                </span>
-                <div className="flex items-center gap-1 shrink-0">
-                  <Stethoscope className="w-3 h-3 text-blue-600" />
-                  <Heart className="w-3 h-3 text-rose-500" />
-                  <Pill className="w-3 h-3 text-amber-500" />
-                  <MapPin className="w-3 h-3 text-emerald-500" />
-                </div>
-              </div>
-              <p className="text-[11px] text-sky-800 leading-tight">
-                {userDoctorIds.length > 0 || userPrescriptions.length > 0
-                  ? `Configured with ${userDoctorIds.length} doctors & ${userPrescriptions.length} medications.`
-                  : 'Add prescriptions & doctors for exact out-of-pocket costs.'}
-              </p>
-            </div>
-
-            <button
-              onClick={() => setIsWizardOpen(true)}
-              className="shrink-0 mt-0.5 py-1.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-[11px] font-bold transition-all shadow-xs flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>{userDoctorIds.length > 0 ? 'Update Preferences' : 'Preferences'}</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Category Tabs */}
-      <CategoryTabs />
-
-      {/* Search Input, Filter Button & Sort Selector Row (Expanded Search Bar, Icon-only Filter & Sort) */}
+      {/* Search Input, Filter Button matching image */}
       <div className="px-4 flex items-center gap-2">
-        {/* Search by plan name - Expanded width */}
         <div className="relative flex-1">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={filters.searchQuery}
             onChange={(e) => updateFilters({ searchQuery: e.target.value })}
             placeholder="Search plan or carrier..."
-            className="w-full h-9 pl-8.5 pr-8 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-400/20 shadow-2xs transition-all"
+            className="w-full h-10 pl-9.5 pr-8 rounded-2xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-400/20 shadow-2xs transition-all"
           />
           {filters.searchQuery && (
             <button
               type="button"
               onClick={() => updateFilters({ searchQuery: '' })}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Filter Drawer Trigger - Icon only */}
+        {/* Filter Drawer Trigger Button */}
         <button
           type="button"
           onClick={() => setIsFilterModalOpen(true)}
           title="Filter plans"
           aria-label="Filter plans"
-          className="relative w-9 h-9 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-blue-700 shadow-2xs flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
+          className="relative w-10 h-10 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-blue-600 shadow-2xs flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
         >
-          <Filter className="w-4 h-4" />
+          <SlidersHorizontal className="w-4 h-4 text-blue-600" />
           {hasActiveFilters && (
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-600 ring-2 ring-white" />
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-600 ring-2 ring-white" />
           )}
         </button>
+      </div>
 
-        {/* Sort Select commented out as requested */}
-        {/*
-        <div className="shrink-0">
-          <Select
-            value={filters.sortBy}
-            onChange={(val) => updateFilters({ sortBy: val as any })}
-            iconOnly={true}
-            triggerClassName="w-9 h-9 border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-2xs"
-            contentClassName="w-[195px] right-0 left-auto"
-            prefixIcon={<ArrowUpDown className="w-4 h-4 text-slate-700" />}
-            ariaLabel="Sort plans"
-            options={[
-              { value: 'recommended', label: 'Recommended' },
-              { value: 'premium-asc', label: 'Premium: Low to High' },
-              { value: 'premium-desc', label: 'Premium: High to Low' },
-              { value: 'deductible-asc', label: 'Lowest Deductible' },
-              { value: 'star-desc', label: 'Highest Star Rating' },
-              { value: 'moop-asc', label: 'Lowest Out-of-Pocket' },
-            ]}
-          />
+      {/* Showing 10 Plans in Tampa, FL 33602        Sort: Featured ⌄ */}
+      <div className="px-4 flex items-center justify-between gap-2 text-xs py-1">
+        {/* Left: Location & Plan Count in a unified sentence with clean wrapping */}
+        <div className="min-w-0 flex-1 truncate">
+          <p className="text-xs text-slate-600 truncate">
+            <span>Showing </span>
+            <span className="font-bold text-slate-900">{filteredPlans.length} Plans</span>
+            <span> in </span>
+            <button
+              type="button"
+              onClick={() => setIsZipModalOpen(true)}
+              className="text-blue-600 underline font-bold cursor-pointer hover:text-blue-800 transition-colors inline"
+            >
+              {locationLabel}
+            </button>
+          </p>
         </div>
-        */}
+
+        {/* Right: Mobile Sort Dropdown Button */}
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            onClick={() => setIsSortMenuOpen(!isSortMenuOpen)}
+            className="h-7.5 px-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shadow-2xs"
+          >
+            <span className="text-slate-400 font-medium">Sort:</span>
+            <span className="text-blue-600 font-bold">{sortShortLabels[filters.sortBy] || 'Featured'}</span>
+            <ChevronDown className={`w-3.5 h-3.5 text-blue-600 transition-transform duration-200 ${isSortMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* Sort Dropdown Menu */}
+          {isSortMenuOpen && (
+            <>
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setIsSortMenuOpen(false)} 
+              />
+              <div className="absolute right-0 top-full mt-1.5 w-52 bg-white rounded-2xl border border-slate-200 shadow-xl py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                <div className="px-3 py-1.5 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                  Sort Plans By
+                </div>
+                {Object.entries(sortLabels).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => {
+                      updateFilters({ sortBy: key as any });
+                      setIsSortMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                      filters.sortBy === key
+                        ? 'bg-blue-50 text-blue-700 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50 font-medium'
+                    }`}
+                  >
+                    <span>{label}</span>
+                    {filters.sortBy === key && <Check className="w-3.5 h-3.5 text-blue-600 stroke-[3]" />}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Active Filter Tags */}

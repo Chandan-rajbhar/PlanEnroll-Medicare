@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useApp } from '../context/AppContext';
+import { showToast } from '../utils/toast';
 import { 
   User, 
   Settings, 
@@ -56,7 +57,7 @@ export const UserProfileScreen: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        alert('Image must be under 5MB');
+        showToast.error('File Too Large', 'Profile photo must be under 5MB.');
         return;
       }
       const reader = new FileReader();
@@ -66,6 +67,7 @@ export const UserProfileScreen: React.FC = () => {
           setFormData(prev => ({ ...prev, photoUrl: dataUrl }));
           updateUserProfile({ photoUrl: dataUrl });
           setIsPhotoMenuOpen(false);
+          showToast.success('Photo Updated', 'Your profile picture has been updated.');
         }
       };
       reader.readAsDataURL(file);
@@ -77,6 +79,7 @@ export const UserProfileScreen: React.FC = () => {
     updateUserProfile({ photoUrl: '' });
     setIsPhotoMenuOpen(false);
     setIsViewPhotoModalOpen(false);
+    showToast.info('Photo Removed', 'Default initials will be displayed.');
   };
 
   const handleSave = (e: React.FormEvent) => {

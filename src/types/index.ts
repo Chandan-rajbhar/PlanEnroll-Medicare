@@ -75,6 +75,10 @@ export interface MedicarePlan {
   contractId: string;
   cmsPlanId: string;
   effectiveYear: number;
+  heroImage?: string;
+  popular?: boolean;
+  topChoiceTag?: string;
+  networkTag?: string;
 }
 
 export interface Doctor {

@@ -61,7 +61,6 @@ export const BottomNav: React.FC = () => {
   ];
 
   // Map every screen in the app to its parent navigation tab
-  // This guarantees an active tab ALWAYS exists and never causes navbar jumpiness
   const getActiveTabId = (screen: ScreenType): ScreenType => {
     switch (screen) {
       case 'home':
@@ -99,59 +98,40 @@ export const BottomNav: React.FC = () => {
   const activeTabId = getActiveTabId(currentScreen);
 
   return (
-    <div className="w-full shrink-0 z-30 px-3.5 pb-3.5 pt-1.5 bg-slate-50 border-t border-slate-200/70 shadow-[0_-4px_16px_rgba(0,0,0,0.02)]">
-      {/* 
-        Solid Opaque Dark Capsule Bar:
-        - 100% solid #0B192C background so page content never bleeds or affects the color.
-        - Fixed grid-cols-5 layout so each tab has an exact 20% width.
-        - When switching tabs, neighboring tabs NEVER move or shift!
-      */}
+    <div className="w-full shrink-0 z-30 px-4 pb-3 pt-1 bg-transparent pointer-events-none">
       <nav 
         role="navigation"
         aria-label="Bottom Navigation"
-        className="mx-auto max-w-[390px] w-full rounded-full bg-[#0B192C] shadow-lg shadow-slate-950/25 border border-slate-800/90 p-1.5 grid grid-cols-5 items-center select-none"
+        className="mx-auto max-w-[390px] w-full h-[58px] rounded-full bg-[#0B1527] shadow-xl shadow-slate-950/30 border border-slate-800/80 px-1.5 grid grid-cols-5 items-center select-none pointer-events-auto"
       >
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTabId === tab.id;
 
           return (
-            <div key={tab.id} className="flex items-center justify-center w-full">
+            <div key={tab.id} className="flex items-center justify-center">
               <button
                 type="button"
                 onClick={() => navigateTo(tab.id)}
-                className={`w-full max-w-[64px] h-[44px] rounded-full flex flex-col items-center justify-center transition-all duration-150 cursor-pointer select-none active:scale-95 relative ${
+                className={`relative flex flex-col items-center justify-center cursor-pointer select-none transition-transform duration-100 ${
                   isActive
-                    ? 'bg-white text-blue-700 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'w-[62px] h-[46px] rounded-full bg-white text-blue-600 shadow-md'
+                    : 'w-10 h-10 rounded-full text-slate-400 hover:text-white'
                 }`}
                 title={tab.label}
                 aria-label={tab.label}
                 aria-current={isActive ? 'page' : undefined}
               >
                 <div className="relative flex items-center justify-center">
-                  <Icon 
-                    className={`${
-                      isActive 
-                        ? 'w-4.5 h-4.5 text-blue-700 stroke-[2.2]' 
-                        : 'w-5 h-5 stroke-[1.8]'
-                    }`} 
-                  />
-                  {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
-                    <span 
-                      className={`absolute -top-1 -right-2.5 min-w-[15px] h-3.5 px-1 text-[9px] font-black rounded-full flex items-center justify-center leading-none ${
-                        isActive 
-                          ? 'bg-blue-700 text-white shadow-2xs' 
-                          : 'bg-blue-500 text-white ring-2 ring-[#0B192C]'
-                      }`}
-                    >
+                  <Icon className={isActive ? 'w-4 h-4 text-blue-600 stroke-[2.2]' : 'w-5 h-5 stroke-[1.8]'} />
+                  {!isActive && tab.badgeCount !== undefined && tab.badgeCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2.5 min-w-[17px] h-[17px] px-1 text-[10px] font-black rounded-full bg-blue-600 text-white flex items-center justify-center leading-none ring-2 ring-[#0B1527] shadow-xs">
                       {tab.badgeCount}
                     </span>
                   )}
                 </div>
-
                 {isActive && (
-                  <span className="text-[10px] font-bold text-blue-700 leading-tight mt-0.5 tracking-tight">
+                  <span className="text-[10px] font-extrabold text-blue-600 leading-tight mt-0.5">
                     {tab.label}
                   </span>
                 )}

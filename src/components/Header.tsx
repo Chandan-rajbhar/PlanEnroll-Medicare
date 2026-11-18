@@ -16,6 +16,11 @@ export const Header: React.FC = () => {
     userProfile
   } = useApp();
 
+  // Hide global header on auth screens to allow custom top wave banner
+  if (['login', 'registration', 'forgot-password'].includes(currentScreen)) {
+    return null;
+  }
+
   return (
     <header className="bg-[#0B1E3B] text-white px-4 h-14 shadow-sm border-b border-white/5 shrink-0 z-20 flex items-center">
       {/* Main Header Container */}

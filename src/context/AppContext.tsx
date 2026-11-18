@@ -12,6 +12,9 @@ import {
 } from '../types';
 import { MEDICARE_PLANS } from '../data/medicarePlansData';
 import { PRESCRIPTIONS_DATA } from '../data/prescriptionsData';
+import { DOCTORS_DATA } from '../data/doctorsData';
+import { PHARMACIES_DATA } from '../data/pharmaciesData';
+import { showToast } from '../utils/toast';
 
 interface AppContextType {
   // Navigation
@@ -229,47 +232,62 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const navigateTo = (screen: ScreenType) => {
     setCurrentScreen(screen);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const setZipCode = (newZip: string) => {
     setZipCodeState(newZip);
+    let resolvedCounty = 'United States Service Area';
     if (newZip.startsWith('75')) {
-      setCountyState('Collin / Dallas County, TX');
+      resolvedCounty = 'Collin / Dallas County, TX';
     } else if (newZip.startsWith('90')) {
-      setCountyState('Los Angeles County, CA');
+      resolvedCounty = 'Los Angeles County, CA';
     } else if (newZip.startsWith('33')) {
-      setCountyState('Miami-Dade County, FL');
+      resolvedCounty = 'Miami-Dade County, FL';
     } else if (newZip.startsWith('10')) {
-      setCountyState('New York County, NY');
+      resolvedCounty = 'New York County, NY';
     } else if (newZip.startsWith('60')) {
-      setCountyState('Cook County, IL');
-    } else {
-      setCountyState('United States Service Area');
+      resolvedCounty = 'Cook County, IL';
     }
+    setCountyState(resolvedCounty);
+    showToast.locationUpdated(newZip, resolvedCounty);
   };
 
   const toggleSavePlan = (planId: string) => {
+    const plan = MEDICARE_PLANS.find(p => p.id === planId);
+    const planName = plan ? plan.name : 'Medicare Plan';
+    const isSaved = savedPlanIds.includes(planId);
+
     setSavedPlanIds(prev => 
-      prev.includes(planId) ? prev.filter(id => id !== planId) : [...prev, planId]
+      isSaved ? prev.filter(id => id !== planId) : [...prev, planId]
     );
+
+    // Trigger toast notification outside the state updater to prevent StrictMode duplicate runs
+    showToast.planSaved(planName, !isSaved);
   };
 
   const toggleComparePlan = (planId: string) => {
-    setComparePlanIds(prev => {
-      if (prev.includes(planId)) {
-        return prev.filter(id => id !== planId);
-      }
-      if (prev.length >= 4) {
-        alert('You can compare a maximum of 4 plans at once.');
-        return prev;
-      }
-      return [...prev, planId];
-    });
+    const plan = MEDICARE_PLANS.find(p => p.id === planId);
+    const planName = plan ? plan.name : 'Medicare Plan';
+    const isCompared = comparePlanIds.includes(planId);
+
+    if (isCompared) {
+      setComparePlanIds(prev => prev.filter(id => id !== planId));
+      showToast.planCompared(planName, false, comparePlanIds.length - 1);
+      return;
+    }
+
+    if (comparePlanIds.length >= 4) {
+      showToast.error('Comparison limit reached', 'You can compare a maximum of 4 plans side by side.', 'compare-limit-alert');
+      return;
+    }
+
+    setComparePlanIds(prev => [...prev, planId]);
+    showToast.planCompared(planName, true, comparePlanIds.length + 1);
   };
 
   const clearComparison = () => {
     setComparePlanIds([]);
+    showToast.info('Comparison cleared', 'All selected plans have been removed from comparison.', 'clear-comparison-toast');
   };
 
   const openPlanDetails = (plan: MedicarePlan) => {
@@ -282,39 +300,65 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const addDoctor = (doctorId: string) => {
+    const doc = DOCTORS_DATA.find(d => d.id === doctorId);
+    const docName = doc ? doc.name : 'Doctor';
     if (!userDoctorIds.includes(doctorId)) {
       setUserDoctorIds(prev => [...prev, doctorId]);
+      showToast.doctorAdded(docName, true);
     }
   };
 
   const removeDoctor = (doctorId: string) => {
-    setUserDoctorIds(prev => prev.filter(id => id !== doctorId));
+    const doc = DOCTORS_DATA.find(d => d.id === doctorId);
+    const docName = doc ? doc.name : 'Doctor';
+    if (userDoctorIds.includes(doctorId)) {
+      setUserDoctorIds(prev => prev.filter(id => id !== doctorId));
+      showToast.doctorAdded(docName, false);
+    }
   };
 
   const addPharmacy = (pharmacyId: string) => {
+    const pharm = PHARMACIES_DATA.find(p => p.id === pharmacyId);
+    const pharmName = pharm ? pharm.name : 'Pharmacy';
     if (!userPharmacyIds.includes(pharmacyId)) {
       setUserPharmacyIds(prev => [...prev, pharmacyId]);
+      showToast.pharmacyAdded(pharmName, true);
     }
   };
 
   const removePharmacy = (pharmacyId: string) => {
-    setUserPharmacyIds(prev => prev.filter(id => id !== pharmacyId));
+    const pharm = PHARMACIES_DATA.find(p => p.id === pharmacyId);
+    const pharmName = pharm ? pharm.name : 'Pharmacy';
+    if (userPharmacyIds.includes(pharmacyId)) {
+      setUserPharmacyIds(prev => prev.filter(id => id !== pharmacyId));
+      showToast.pharmacyAdded(pharmName, false);
+    }
   };
 
   const addPrescription = (item: UserPrescriptionItem) => {
+    const alreadyExists = userPrescriptions.some(p => p.prescriptionId === item.prescriptionId);
     setUserPrescriptions(prev => {
-      const existing = prev.findIndex(p => p.prescriptionId === item.prescriptionId);
-      if (existing >= 0) {
+      const idx = prev.findIndex(p => p.prescriptionId === item.prescriptionId);
+      if (idx >= 0) {
         const updated = [...prev];
-        updated[existing] = item;
+        updated[idx] = item;
         return updated;
       }
       return [...prev, item];
     });
+
+    if (alreadyExists) {
+      showToast.rxAdded(item.name, 'Medication dosage updated');
+    } else {
+      showToast.rxAdded(item.name, 'Medication added to your profile');
+    }
   };
 
   const removePrescription = (prescriptionId: string) => {
+    const item = userPrescriptions.find(p => p.prescriptionId === prescriptionId);
+    const drugName = item ? item.name : 'Medication';
     setUserPrescriptions(prev => prev.filter(p => p.prescriptionId !== prescriptionId));
+    showToast.rxAdded(drugName, 'Medication removed from profile');
   };
 
   const updateFilters = (updates: Partial<FilterState>) => {
@@ -333,6 +377,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const markAllNotificationsAsRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    showToast.success('All Notifications Read', 'Your inbox is up to date.');
   };
 
   const login = (email: string) => {
@@ -341,11 +386,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       ...defaultUserProfile,
       email: email || defaultUserProfile.email
     });
+    showToast.success('Welcome Back!', `Signed in as ${email || defaultUserProfile.email}`);
     return true;
   };
 
   const logout = () => {
     setIsAuthenticated(false);
+    showToast.info('Signed Out', 'You have been safely signed out of PlanEnroll.');
   };
 
   const registerUser = (profile: Partial<UserProfile>) => {
@@ -356,6 +403,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     setUserProfile(newUser);
     setIsAuthenticated(true);
+    showToast.success('Account Created', `Welcome to PlanEnroll, ${profile.firstName || 'Beneficiary'}!`);
   };
 
   const updateUserProfile = (profile: Partial<UserProfile>) => {
@@ -369,6 +417,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       return updated;
     });
+    showToast.success('Profile Saved', 'Your changes have been saved to your account.');
   };
 
   const submitQuoteRequest = (req: Omit<QuoteRequest, 'id' | 'createdAt' | 'status'>) => {
@@ -393,6 +442,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       },
       ...prev
     ]);
+    showToast.success('Quote Request Dispatched', `Submitted inquiry for ${req.planName}. A specialist will reach out.`);
   };
 
   const submitCallbackRequest = (req: Omit<AgentCallbackRequest, 'id' | 'createdAt' | 'status'>) => {
@@ -416,6 +466,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       },
       ...prev
     ]);
+    showToast.success('Callback Scheduled', `Agent Sarah Miller will call ${req.phone} (${req.preferredTime}).`);
   };
 
   const toggleAgentChat = (open?: boolean) => {

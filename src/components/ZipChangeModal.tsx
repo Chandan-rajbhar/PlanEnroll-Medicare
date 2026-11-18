@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { showToast } from '../utils/toast';
 import { MapPin, CheckCircle2, X } from 'lucide-react';
 
 export const ZipChangeModal: React.FC = () => {
@@ -13,6 +14,8 @@ export const ZipChangeModal: React.FC = () => {
     if (zipInput.trim().length === 5) {
       setZipCode(zipInput.trim());
       setIsZipModalOpen(false);
+    } else {
+      showToast.error('Invalid ZIP Code', 'Please enter a valid 5-digit US ZIP code.');
     }
   };
 

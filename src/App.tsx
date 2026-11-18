@@ -5,6 +5,7 @@ import { BottomNav } from './components/BottomNav';
 import { LiveAgentChatModal } from './components/LiveAgentChatModal';
 import { PlanDetailModal } from './components/PlanDetailModal';
 import { ZipChangeModal } from './components/ZipChangeModal';
+import { AppToaster } from './utils/toast';
 
 // 20 Screens
 import { HomeScreen } from './screens/HomeScreen';
@@ -34,6 +35,14 @@ const MainAppContent: React.FC = () => {
     selectedPlanForDetails, 
     closePlanDetails 
   } = useApp();
+
+  const mainRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [currentScreen]);
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -93,7 +102,7 @@ const MainAppContent: React.FC = () => {
         <Header />
 
         {/* Dynamic Screen View - min-h-0 prevents flex overflow on mobile browsers */}
-        <main className="flex-1 min-h-0 overflow-y-auto no-scrollbar relative">
+        <main ref={mainRef} className="flex-1 min-h-0 overflow-y-auto no-scrollbar relative">
           {renderScreen()}
         </main>
 
@@ -113,6 +122,9 @@ const MainAppContent: React.FC = () => {
             onClose={closePlanDetails}
           />
         )}
+
+        {/* Global React Hot Toast Notifications Container */}
+        <AppToaster />
       </div>
     </div>
   );

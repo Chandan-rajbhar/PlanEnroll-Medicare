@@ -58,7 +58,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 4200, hospitals: 28, pharmacies: 185 },
     contractId: 'H8176-004',
     cmsPlanId: 'H8176-004-001',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1516307365426-bea591f05011?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: '#1 Value in Texas',
+    networkTag: 'Baylor Scott & White Network'
   },
 
   // 2. Blue Cross Blue Shield - Medicare Advantage Value (HMO) - $0 Premium
@@ -118,7 +121,11 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 7800, hospitals: 45, pharmacies: 320 },
     contractId: 'H5883-012',
     cmsPlanId: 'H5883-012-002',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=800&auto=format&fit=crop&q=80',
+    popular: true,
+    topChoiceTag: '$0 Premium Choice',
+    networkTag: 'Texas Health Network'
   },
 
   // 3. UnitedHealthcare - AARP Medicare Advantage Choice (PPO)
@@ -178,7 +185,11 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 12500, hospitals: 62, pharmacies: 540 },
     contractId: 'H1278-002',
     cmsPlanId: 'H1278-002-005',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&auto=format&fit=crop&q=80',
+    popular: true,
+    topChoiceTag: 'Top National PPO',
+    networkTag: 'OptumCare Network'
   },
 
   // 4. Humana - Humana Gold Plus HMO
@@ -238,7 +249,11 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 9100, hospitals: 52, pharmacies: 410 },
     contractId: 'H1036-088',
     cmsPlanId: 'H1036-088-001',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&auto=format&fit=crop&q=80',
+    popular: true,
+    topChoiceTag: '#1 Top Choice in Tampa',
+    networkTag: 'Tampa General Network'
   },
 
   // 5. Medicare Supplement (Medigap) - Mutual of Omaha Plan G
@@ -290,7 +305,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     formularyDrugCount: 0,
     contractId: 'MED-G-OMH',
     cmsPlanId: 'MED-G-OMH-2026',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: '#1 Medigap Plan',
+    networkTag: 'Any Medicare Doctor Nationwide'
   },
 
   // 6. Medicare Supplement - Aetna Medigap Plan N
@@ -342,7 +360,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     formularyDrugCount: 0,
     contractId: 'MED-N-AET',
     cmsPlanId: 'MED-N-AET-2026',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: 'Budget Friendly Medigap',
+    networkTag: 'Nationwide Network'
   },
 
   // 7. Prescription Drug Plan (Part D) - SilverScript Choice (PDP) by CVS Health
@@ -402,7 +423,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 0, hospitals: 0, pharmacies: 66000 },
     contractId: 'S5601-001',
     cmsPlanId: 'S5601-001-001',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: '#1 Standalone Part D',
+    networkTag: 'CVS Preferred Pharmacy'
   },
 
   // 8. Prescription Drug Plan - Wellcare Value Script (PDP) - Low $0-$0.40 Premium
@@ -462,7 +486,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 0, hospitals: 0, pharmacies: 60000 },
     contractId: 'S4802-145',
     cmsPlanId: 'S4802-145-001',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: 'Lowest Monthly Premium',
+    networkTag: 'Walgreens Preferred'
   },
 
   // 9. Special Needs Plan (D-SNP) - UnitedHealthcare Dual Complete (HMO-POS D-SNP)
@@ -520,7 +547,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 14200, hospitals: 68, pharmacies: 580 },
     contractId: 'H0271-019',
     cmsPlanId: 'H0271-019-001',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: '#1 Dual D-SNP Plan',
+    networkTag: 'Optum Healthcare Network'
   },
 
   // 10. Special Needs Plan (C-SNP) - Cigna Healthcare Diabetes & Heart Care (C-SNP)
@@ -580,7 +610,10 @@ export const MEDICARE_PLANS: MedicarePlan[] = [
     networkSize: { doctors: 8400, hospitals: 44, pharmacies: 390 },
     contractId: 'H7849-014',
     cmsPlanId: 'H7849-014-003',
-    effectiveYear: 2026
+    effectiveYear: 2026,
+    heroImage: 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=800&auto=format&fit=crop&q=80',
+    topChoiceTag: 'Top Chronic Care Plan',
+    networkTag: 'Cigna Care Network'
   }
 ];
 

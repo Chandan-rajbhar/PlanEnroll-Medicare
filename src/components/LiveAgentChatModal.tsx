@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import { showToast } from '../utils/toast';
 import { X, Send, Bot, ShieldCheck, PhoneCall, Sparkles } from 'lucide-react';
 
 interface ChatMessage {
@@ -106,6 +107,7 @@ export const LiveAgentChatModal: React.FC = () => {
           <div className="flex items-center gap-1">
             <a
               href="tel:18557008583"
+              onClick={() => showToast.info('Connecting to Agent', 'Dialing 1-855-700-8583 (TTY: 711)...')}
               className="p-2 rounded-full hover:bg-blue-800 text-blue-200 hover:text-white"
               title="Call agent"
             >
