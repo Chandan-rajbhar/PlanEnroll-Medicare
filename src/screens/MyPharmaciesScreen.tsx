@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { PHARMACIES_DATA } from '../data/pharmaciesData';
-import { 
-  Building2, 
-  Search, 
-  Plus, 
-  Check, 
-  Trash2, 
-  MapPin, 
-  Phone, 
-  Truck, 
-  Clock, 
-  ShieldCheck, 
+import {
+  Building2,
+  Search,
+  Plus,
+  Check,
+  Trash2,
+  MapPin,
+  Phone,
+  Truck,
+  Clock,
+  ShieldCheck,
   Car,
   Sparkles
 } from 'lucide-react';
@@ -36,16 +36,16 @@ export const MyPharmaciesScreen: React.FC = () => {
       {/* Title */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-black text-slate-900 leading-tight">
+          <h2 className="text-md font-black text-slate-900 leading-tight">
             My Pharmacies
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Preferred pharmacy networks save up to 80% on drug copays
           </p>
         </div>
-        <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">
+        {/* <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800">
           {userPharmacyIds.length} Preferred
-        </span>
+        </span> */}
       </div>
 
       {/* Tip Banner */}
@@ -189,11 +189,10 @@ export const MyPharmaciesScreen: React.FC = () => {
 
                 <button
                   onClick={() => isSaved ? removePharmacy(pharm.id) : addPharmacy(pharm.id)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all ${
-                    isSaved
+                  className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all ${isSaved
                       ? 'bg-blue-100 text-blue-800 hover:bg-rose-100 hover:text-rose-700'
                       : 'bg-blue-700 text-white hover:bg-blue-800 shadow-sm'
-                  }`}
+                    }`}
                 >
                   {isSaved ? (
                     <>

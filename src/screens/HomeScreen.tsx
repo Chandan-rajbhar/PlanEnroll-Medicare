@@ -259,7 +259,7 @@ export const HomeScreen: React.FC = () => {
       </div>
 
       {/* Mandatory CMS TPMO Compliance Disclaimer */}
-      <div className="px-4 pt-2">
+      {/* <div className="px-4 pt-2">
         <div className="p-3.5 bg-slate-100 rounded-2xl border border-slate-200 text-[10px] text-slate-500 space-y-1.5 leading-relaxed">
           <div className="flex items-center gap-1.5 font-bold text-slate-700">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-700" />
@@ -272,7 +272,7 @@ export const HomeScreen: React.FC = () => {
             PlanEnroll is operated by Integrity Marketing Group, LLC, a non-government licensed insurance agency.
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
