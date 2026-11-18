@@ -218,8 +218,56 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAgentChatOpen, setIsAgentChatOpen] = useState<boolean>(false);
   const [isDeviceFrameView, setIsDeviceFrameView] = useState<boolean>(true);
 
-  const [quoteRequests, setQuoteRequests] = useState<QuoteRequest[]>([]);
+  const [quoteRequests, setQuoteRequests] = useState<QuoteRequest[]>(() => {
+    try {
+      const stored = localStorage.getItem('medicare_quote_requests');
+      if (stored) return JSON.parse(stored);
+    } catch (e) {
+      console.error(e);
+    }
+    return [
+      {
+        id: 'quote-seed-1',
+        planId: 'aarp-medicare-advantage-choice-ppo',
+        planName: 'AARP Medicare Advantage Choice (PPO)',
+        carrier: 'UnitedHealthcare',
+        monthlyPremium: 19.00,
+        zipCode: '75080',
+        userName: 'Eleanor Vance',
+        userEmail: 'eleanor.vance@gmail.com',
+        userPhone: '(971) 752-9054',
+        preferredContactTime: 'Morning (9am - 12pm)',
+        notes: 'Interested in enrollment for AARP Medicare Advantage Choice (PPO)',
+        createdAt: new Date().toISOString(),
+        status: 'Pending'
+      },
+      {
+        id: 'quote-seed-2',
+        planId: 'humana-gold-plus-hmo',
+        planName: 'Humana Gold Plus HMO',
+        carrier: 'Humana',
+        monthlyPremium: 24.00,
+        zipCode: '75080',
+        userName: 'Eleanor Vance',
+        userEmail: 'eleanor.vance@gmail.com',
+        userPhone: '(971) 752-9054',
+        preferredContactTime: 'Morning (9am - 12pm)',
+        notes: 'Interested in enrollment for Humana Gold Plus HMO',
+        createdAt: new Date().toISOString(),
+        status: 'Pending'
+      }
+    ];
+  });
   const [callbackRequests, setCallbackRequests] = useState<AgentCallbackRequest[]>([]);
+
+  // Persist quote requests
+  useEffect(() => {
+    try {
+      localStorage.setItem('medicare_quote_requests', JSON.stringify(quoteRequests));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [quoteRequests]);
 
   // Persist saved plans
   useEffect(() => {

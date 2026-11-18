@@ -86,7 +86,7 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
       notes: `Application for ${plan.name} (${plan.contractId})`
     });
     onClose();
-    navigateTo('saved-plans');
+    navigateTo('user-profile');
   };
 
   const tabs = [
@@ -543,12 +543,12 @@ export const PlanDetailModal: React.FC<Props> = ({ plan, onClose }) => {
             </button>
           </div>
 
-          {/* Primary CTA: Get Quote & Enroll */}
+          {/* Primary CTA: Plan Enroll */}
           <button
             onClick={handleEnrollQuote}
             className="h-9 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap flex-1 sm:flex-initial"
           >
-            <span>Get Quote & Enroll</span>
+            <span>Plan Enroll</span>
           </button>
         </div>
 

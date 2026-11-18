@@ -52,7 +52,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
       preferredContactTime: 'Morning (9am - 12pm)',
       notes: `Interested in enrollment for ${plan.name}`
     });
-    navigateTo('saved-plans');
+    navigateTo('user-profile');
   };
 
   // Distinct, non-duplicate hero images for each plan
@@ -227,7 +227,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan, onOpenDetails }) => {
             onClick={handleGetQuoteClick}
             className="h-9 px-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-xs cursor-pointer"
           >
-            <span>Add to Cart</span>
+            <span>Plan Enroll</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
