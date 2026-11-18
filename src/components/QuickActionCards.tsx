@@ -1,10 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import {
-  Search,
-  ArrowLeftRight,
-  Stethoscope,
-  Pill,
   Building2,
   Truck,
   ArrowRightLeft,
@@ -14,11 +10,7 @@ import {
 export const QuickActionCards: React.FC = () => {
   const {
     navigateTo,
-    userDoctorIds,
-    userPrescriptions,
     userPharmacyIds,
-    comparePlanIds,
-    filteredPlans,
     zipCode
   } = useApp();
 
@@ -26,37 +18,25 @@ export const QuickActionCards: React.FC = () => {
     {
       title: 'Find Plans',
       desc: `Explore Medicare in ${zipCode || '75080'}`,
-      icon: Search,
-      bgGradient: 'from-[#2563EB] via-[#1450DA] to-[#1544C2]',
-      styleGradient: 'linear-gradient(135deg, #2563EB 0%, #1450DA 50%, #1544C2 100%)',
-      badge: `${filteredPlans.length > 0 ? filteredPlans.length : 54} Plans`,
+      image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=600&auto=format&fit=crop&q=80',
       onClick: () => navigateTo('plan-search')
     },
     {
       title: 'Compare Plans',
       desc: 'Side-by-side benefits table',
-      icon: ArrowLeftRight,
-      bgGradient: 'from-[#109E7A] via-[#097D62] to-[#0F6B5D]',
-      styleGradient: 'linear-gradient(135deg, #109E7A 0%, #097D62 50%, #0F6B5D 100%)',
-      badge: comparePlanIds.length > 0 ? `${comparePlanIds.length} Selected` : 'Interactive',
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&auto=format&fit=crop&q=80',
       onClick: () => navigateTo('plan-comparison')
     },
     {
       title: 'My Doctors',
       desc: 'Check in-network physicians',
-      icon: Stethoscope,
-      bgGradient: 'from-[#EF9E33] via-[#D76F00] to-[#C05500]',
-      styleGradient: 'linear-gradient(135deg, #EF9E33 0%, #D76F00 50%, #C05500 100%)',
-      badge: `${userDoctorIds.length > 0 ? userDoctorIds.length : 3} Added`,
+      image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&auto=format&fit=crop&q=80',
       onClick: () => navigateTo('my-doctors')
     },
     {
       title: 'My Prescriptions',
       desc: 'Drug pricing & formulary check',
-      icon: Pill,
-      bgGradient: 'from-[#DE3366] via-[#BC0045] to-[#A90048]',
-      styleGradient: 'linear-gradient(135deg, #DE3366 0%, #BC0045 50%, #A90048 100%)',
-      badge: `${userPrescriptions.length > 0 ? userPrescriptions.length : 2} Meds`,
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&auto=format&fit=crop&q=80',
       onClick: () => navigateTo('my-prescriptions')
     }
   ];
@@ -90,40 +70,38 @@ export const QuickActionCards: React.FC = () => {
 
   return (
     <div className="px-4 py-2 space-y-4">
-      {/* 4 Main Quick Action Cards matching exact color theme in screenshot */}
+      {/* 4 Main Quick Action Cards matching Image 1 photo cards layout */}
       <div className="grid grid-cols-2 gap-2.5">
-        {primaryActions.map((action, idx) => {
-          const Icon = action.icon;
-          return (
-            <button
-              key={idx}
-              onClick={action.onClick}
-              style={{ background: action.styleGradient }}
-              className={`p-3.5 rounded-2xl bg-gradient-to-br ${action.bgGradient} text-white text-left shadow-md hover:shadow-lg transition-all active:scale-[0.98] relative overflow-hidden flex flex-col justify-between group h-[114px] cursor-pointer border border-white/15`}
-            >
-              {/* Top row: Frosted Icon Box & Frosted Badge */}
-              <div className="flex items-start justify-between w-full">
-                <div className="w-9 h-9 rounded-xl bg-white/20 text-white flex items-center justify-center backdrop-blur-xs border border-white/25 shadow-xs group-hover:scale-110 transition-transform">
-                  <Icon className="w-4.5 h-4.5" />
-                </div>
-                <span className="text-[10px] font-bold bg-white/20 text-white border border-white/25 px-2 py-0.5 rounded-full backdrop-blur-xs shadow-2xs">
-                  {action.badge}
-                </span>
-              </div>
+        {primaryActions.map((action, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={action.onClick}
+            className="relative h-[122px] sm:h-[130px] rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all active:scale-[0.98] text-left group cursor-pointer border border-slate-900/10"
+          >
+            {/* Background Lifestyle Image */}
+            <img
+              src={action.image}
+              alt={action.title}
+              className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
 
-              {/* Bottom text: Title with Chevron & Subtitle */}
-              <div>
-                <h4 className="font-bold text-[13px] sm:text-sm text-white tracking-tight leading-tight flex items-center gap-1">
-                  <span>{action.title}</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-white/70 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
-                </h4>
-                <p className="text-[10px] text-white/80 mt-0.5 line-clamp-1 font-medium">
-                  {action.desc}
-                </p>
-              </div>
-            </button>
-          );
-        })}
+            {/* Dark Gradient Overlay for Maximum Legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/15" />
+
+            {/* Bottom Content: Title with Chevron & Subtitle */}
+            <div className="relative z-10 p-3 h-full flex flex-col justify-end">
+              <h4 className="font-extrabold text-[14px] sm:text-[15px] text-white tracking-tight leading-tight flex items-center gap-1 drop-shadow-xs">
+                <span>{action.title}</span>
+                <ChevronRight className="w-4 h-4 text-white/90 group-hover:translate-x-0.5 transition-transform stroke-[2.5]" />
+              </h4>
+              <p className="text-[11px] text-white/85 font-medium mt-0.5 leading-snug line-clamp-1 drop-shadow-xs">
+                {action.desc}
+              </p>
+            </div>
+          </button>
+        ))}
       </div>
 
       {/* "How can we help you today?" Horizontal 3-Card Row */}
