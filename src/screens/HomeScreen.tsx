@@ -86,44 +86,38 @@ export const HomeScreen: React.FC = () => {
       {/* Floating Agent Banner matching Screenshot 2 */}
       <AgentBanner />
 
-      {/* Hero Section Banner (Matching Section 3 requirement) */}
+      {/* Hero Section Banner (Modern Vibrant Gradient for Mobile) */}
       <div className="px-4">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0F2544] via-blue-900 to-indigo-900 text-white p-5 shadow-lg">
-          {/* Subtle background image overlay */}
-          <div 
-            className="absolute inset-0 opacity-15 mix-blend-overlay bg-cover bg-center pointer-events-none"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=800&auto=format&fit=crop&q=80')`
-            }}
-          />
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0B254E] via-[#13438E] to-[#1E62CD] text-white p-5 sm:p-6 shadow-[0_8px_30px_rgba(11,37,78,0.22)] border border-blue-400/20">
+          {/* Luminous Glow Accents for rich mobile visual depth */}
+          <div className="absolute -right-8 -top-8 w-48 h-48 rounded-full bg-cyan-400/25 blur-3xl pointer-events-none" />
+          <div className="absolute -left-8 -bottom-8 w-40 h-40 rounded-full bg-indigo-500/30 blur-2xl pointer-events-none" />
+          <div className="absolute right-10 bottom-0 w-24 h-24 rounded-full bg-blue-300/15 blur-xl pointer-events-none" />
 
-          <div className="relative z-10 space-y-3">
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full backdrop-blur-md">
-              <Sparkles className="w-3 h-3 text-amber-300" />
-              <span>Medicare Open Enrollment Active</span>
-            </span>
-
+          <div className="relative z-10 space-y-3.5">
             <div>
-              <h2 className="text-xl font-black text-white leading-tight">
+              <h2 className="text-[21px] sm:text-2xl font-black text-white leading-tight tracking-tight">
                 Find the Right Medicare Plan
               </h2>
-              <p className="text-xs text-blue-100/90 mt-1 max-w-xs leading-relaxed">
+              <p className="text-xs text-blue-100/90 mt-1.5 max-w-xs leading-relaxed font-medium">
                 Explore Medicare Advantage, Medigap, and Part D drug coverage options in {countyState}.
               </p>
             </div>
 
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-2.5 pt-1">
               <button
+                type="button"
                 onClick={() => navigateTo('plan-search')}
-                className="py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5"
+                className="py-2.5 px-4.5 rounded-2xl bg-white hover:bg-blue-50 text-blue-800 text-xs font-black transition-all shadow-md active:scale-95 flex items-center gap-1.5 cursor-pointer"
               >
                 <span>Explore Plans</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-blue-800 stroke-[2.5]" />
               </button>
 
               <button
+                type="button"
                 onClick={() => navigateTo('plan-comparison')}
-                className="py-2.5 px-3.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition-all backdrop-blur-md"
+                className="py-2.5 px-4 rounded-2xl bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-bold transition-all backdrop-blur-md active:scale-95 cursor-pointer"
               >
                 Compare Plans
               </button>
