@@ -1,24 +1,24 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { showToast } from '../utils/toast';
-import { 
-  Bell, 
-  CheckCheck, 
-  Pill, 
-  Calendar, 
-  PhoneCall, 
-  AlertTriangle, 
+import {
+  Bell,
+  CheckCheck,
+  Pill,
+  Calendar,
+  PhoneCall,
+  AlertTriangle,
   ChevronRight,
   Sparkles
 } from 'lucide-react';
 
 export const NotificationsScreen: React.FC = () => {
-  const { 
-    notifications, 
-    markNotificationAsRead, 
-    markAllNotificationsAsRead, 
+  const {
+    notifications,
+    markNotificationAsRead,
+    markAllNotificationsAsRead,
     navigateTo,
-    unreadNotificationCount 
+    unreadNotificationCount
   } = useApp();
 
   const getIcon = (type: string) => {
@@ -71,7 +71,7 @@ export const NotificationsScreen: React.FC = () => {
       </div>
 
       {/* Interactive Live Hot Toast Simulation */}
-      <div className="bg-gradient-to-br from-[#0B1E3B] to-[#132A52] text-white p-3 rounded-2xl border border-white/10 shadow-sm space-y-2">
+      {/* <div className="bg-gradient-to-br from-[#0B1E3B] to-[#132A52] text-white p-3 rounded-2xl border border-white/10 shadow-sm space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
@@ -129,7 +129,7 @@ export const NotificationsScreen: React.FC = () => {
             <span>AEP Alert</span>
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Notifications List - Compact Mobile Cards */}
       <div className="space-y-2">
@@ -142,11 +142,10 @@ export const NotificationsScreen: React.FC = () => {
                 navigateTo(item.actionScreen);
               }
             }}
-            className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden active:scale-[0.99] ${
-              item.read
+            className={`p-3 rounded-xl border transition-all cursor-pointer relative overflow-hidden active:scale-[0.99] ${item.read
                 ? 'bg-white border-slate-200/90 text-slate-700 hover:bg-slate-50 shadow-2xs'
                 : 'bg-gradient-to-r from-blue-50/60 to-white border-blue-300/90 text-slate-900 shadow-xs'
-            }`}
+              }`}
           >
             {!item.read && (
               <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-blue-600"></span>
